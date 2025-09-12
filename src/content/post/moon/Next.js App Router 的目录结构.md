@@ -3,7 +3,7 @@ title: Next.js App Router 的目录结构
 description: 梳理 App Router 的特殊文件、路由约定与高级组织模式：layout/page/loading/not-found/error、动态与可选路径、路由组、私有文件夹与并行路由等。
 publishDate: 2025-07-21
 tags:
-  - Next.js
+  - Nextjs
   - 路由
 draft: false
 ---
