@@ -1,9 +1,11 @@
----
+title: "React Custom Hook"
+description: "定义与动机：以 use 开头的函数用于复用有状态逻辑；示例 useToggle 与 useFetch（含 AbortController 取消）；并总结命名、顶层调用、职责单一与返回形态等最佳实践。"
+publishDate: "2025-09-12"
+tags: ["React", "Hooks", "自定义 Hook", "状态复用", "最佳实践"]
+draft: false
 type: Post
 status: Published
 date: 2025-07-21
-tags:
-  - 前端
 category: 技术分享
 ---
 ### 一、React 自定义 Hook 是什么？

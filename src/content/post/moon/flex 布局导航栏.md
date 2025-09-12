@@ -1,9 +1,11 @@
----
+title: "Flex 布局导航栏与两栏布局"
+description: "用 Flexbox 实现导航项对齐（margin: auto、space-between、弹簧元素）及“左侧固定、右侧自适应”的经典两栏布局，含关键 flex 参数解析。"
+publishDate: "2025-09-12"
+tags: ["CSS", "Flexbox", "导航栏", "布局", "侧边栏"]
+draft: false
 type: Post
 status: Published
 date: 2025-07-07
-tags:
-  - CSS
 category: 技术分享
 ---
 # **🚀 Flex 布局实现经典导航栏对齐效果**

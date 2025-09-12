@@ -1,3 +1,11 @@
+---
+title: "JavaScript var 核心特性与实践指南"
+description: "梳理 var 的函数作用域、变量提升、可重复声明与全局对象挂载等特性，分析 setTimeout 循环等典型陷阱，并与 let/const 对比给出现代使用建议。"
+publishDate: "2025-09-12"
+tags: ["JavaScript", "var", "作用域", "变量提升", "let", "const"]
+draft: false
+---
+
 ### JavaScript `var` 核心特性与实践指南
 `var` 是 JavaScript 早期的变量声明方式，其核心特性——**函数作用域**和**变量提升**——是理解许多经典 JS “陷阱”的关键。
 ### 核心特性

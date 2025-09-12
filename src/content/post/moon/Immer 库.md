@@ -1,4 +1,8 @@
----
+title: "Immer 库"
+description: "介绍 Immer 的理念与使用：以可变写法生成不可变状态，结合 React Hooks 的实践（useImmer/useImmerReducer），并解析 Proxy 与写时复制的原理与最佳实践。"
+publishDate: "2025-09-12"
+tags: ["JavaScript", "Immer", "不可变", "React", "状态管理"]
+draft: false
 type: Post
 status: Published
 date: 2025-07-12

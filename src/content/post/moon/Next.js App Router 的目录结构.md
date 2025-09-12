@@ -1,9 +1,11 @@
----
+title: "Next.js App Router 的目录结构"
+description: "梳理 App Router 的特殊文件、路由约定与高级组织模式：layout/page/loading/not-found/error、动态与可选路径、路由组、私有文件夹与并行路由等。"
+publishDate: "2025-09-12"
+tags: ["Next.js", "App Router", "路由", "目录结构", "布局"]
+draft: false
 type: Post
 status: Published
 date: 2025-07-21
-tags:
-  - 前端
 category: 技术分享
 ---
 ### 一、关键特殊文件（Special Files）

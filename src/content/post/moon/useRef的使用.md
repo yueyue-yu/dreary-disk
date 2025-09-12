@@ -1,9 +1,11 @@
----
+title: "React useRef 的使用"
+description: "介绍 useRef 的原理与常见用法：访问 DOM、存储不触发渲染的可变数据，并给出聚焦输入框与定时器等示例。"
+publishDate: "2025-09-12"
+tags: ["React", "useRef", "Hooks", "DOM", "前端"]
+draft: false
 type: Post
 status: Published
 date: 2025-07-16
-tags:
-  - 前端
 category: 技术分享
 ---
 ### `useRef` 概览

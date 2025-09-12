@@ -1,3 +1,11 @@
+---
+title: "CSS 记忆知识点"
+description: "速记 CSS 的关键知识：选择器优先级、继承规律、常见简写属性的陷阱与规则，以及块/行内/行内块的盒模型默认行为。"
+publishDate: "2025-09-12"
+tags: ["CSS", "优先级", "继承", "简写属性", "盒模型"]
+draft: false
+---
+
 
 ### CSS 优先级 (Specificity)
 

@@ -1,4 +1,8 @@
----
+title: "Hydration 过程"
+description: "解构 SSR 中的 Hydration：复用服务器生成的 DOM，通过 hydrate 附加事件与状态以接管应用，并说明不匹配（mismatch）的成因与影响。"
+publishDate: "2025-09-12"
+tags: ["SSR", "Hydration", "React", "前端", "同构"]
+draft: false
 type: Post
 status: Published
 date: 2025-08-04

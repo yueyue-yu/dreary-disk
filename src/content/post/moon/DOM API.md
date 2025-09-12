@@ -1,3 +1,11 @@
+---
+title: "DOM API"
+description: "常用 DOM 操作速查：元素选择、内容与属性修改、创建插入删除、classList、事件绑定、节点遍历与尺寸位置获取等。"
+publishDate: "2025-09-12"
+tags: ["DOM", "API", "前端", "事件", "节点"]
+draft: false
+---
+
   
   
 ### 一、 获取/查询节点 (Selecting Elements)

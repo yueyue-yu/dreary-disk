@@ -1,4 +1,8 @@
----
+title: "单线程的 JS 如何实现异步"
+description: "以事件循环为核心，解释宿主环境、调用栈、任务队列（宏/微任务）如何配合实现非阻塞异步，并补充 setTimeout、async/await 与 Node.js 事件循环差异。"
+publishDate: "2025-09-12"
+tags: ["JavaScript", "异步", "事件循环", "微任务", "宏任务", "浏览器"]
+draft: false
 type: Post
 status: Published
 date: 2025-07-29

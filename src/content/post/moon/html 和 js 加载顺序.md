@@ -1,8 +1,10 @@
----
+title: "HTML 与 JS 加载顺序"
+description: "梳理浏览器解析顺序与 <script> 的默认行为，区分 defer 与 async 的下载与执行时机及顺序，并给出不阻塞渲染的实践建议。"
+publishDate: "2025-09-12"
+tags: ["前端", "HTML", "JavaScript", "script", "defer", "async"]
+draft: false
 type: Post
 status: Published
-tags:
-  - 前端
 category: 技术分享
 ---
 ## 1. 浏览器加载顺序基础

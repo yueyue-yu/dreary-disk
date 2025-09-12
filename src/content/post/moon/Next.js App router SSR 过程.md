@@ -1,8 +1,11 @@
----
+title: "Next.js App Router SSR 过程"
+description: "解析 App Router 下客户端组件与服务端组件的渲染与水合流程：客户端组件的预渲染与激活、服务端组件的 RSC Payload 与流式传输，并对比传统 SSR。"
+publishDate: "2025-09-12"
+tags: ["Next.js", "SSR", "App Router", "RSC", "Hydration"]
+draft: false
 type: Post
 status: Published
 date: 2025-08-04
-summary: 本文聚焦于 Next.js App Router 的服务端渲染（SSR）过程，分别解析了客户端组件与服务端组件的渲染机制，并与传统 SSR 模式进行对比，以凸显其核心差异。
 category: 技术分享
 ---
 

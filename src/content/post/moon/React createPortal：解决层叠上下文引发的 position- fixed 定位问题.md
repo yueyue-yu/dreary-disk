@@ -1,4 +1,8 @@
----
+title: "React createPortal：解决层叠上下文导致的 fixed 定位问题"
+description: "分析 transform 等属性创建层叠上下文导致 fixed 相对祖先定位的问题，并用 createPortal 将遮罩/抽屉挂载到 body，恢复视口定位与事件冒泡。"
+publishDate: "2025-09-12"
+tags: ["React", "createPortal", "层叠上下文", "position: fixed", "CSS"]
+draft: false
 type: Post
 status: Published
 date: 2025-08-01

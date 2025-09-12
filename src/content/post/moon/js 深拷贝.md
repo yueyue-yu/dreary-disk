@@ -1,4 +1,8 @@
----
+title: "JS 深拷贝"
+description: "介绍深拷贝与浅拷贝的区别，并比较多种实现方式（JSON、structuredClone、Lodash、手写递归），各自优缺点与适用场景。"
+publishDate: "2025-09-12"
+tags: ["JavaScript", "深拷贝", "structuredClone", "Lodash"]
+draft: false
 type: Post
 status: Published
 date: 2025-08-06

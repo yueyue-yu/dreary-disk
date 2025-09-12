@@ -1,9 +1,11 @@
----
+title: "CSS 3D"
+description: "系统讲解 CSS 3D：perspective、各类 transform、transform-style、transform-origin 与 backface-visibility 的作用与用法，并结合过渡/动画与常见交互示例。"
+publishDate: "2025-09-12"
+tags: ["CSS", "3D", "transform", "perspective", "动画"]
+draft: false
 type: Post
 status: Published
 date: 2025-07-26
-tags:
-  - 前端
 category: 技术分享
 ---
 ### 1. `perspective` (透视)

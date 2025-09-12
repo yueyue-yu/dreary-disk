@@ -1,3 +1,11 @@
+---
+title: "useEffect 闭包的例子"
+description: "以键盘事件为例说明 useEffect 的陈旧闭包问题，先用函数式更新修正逻辑，再结合 useCallback 稳定函数引用，避免频繁解绑/绑定。"
+publishDate: "2025-09-12"
+tags: ["React", "useEffect", "闭包", "Hooks", "性能优化"]
+draft: false
+---
+
 ### 背景介绍：一个简单的需求引发的思考
 在开发一个基于 React 的 2048 游戏时，我们遇到了一个常见的需求：允许用户通过键盘的上下左右方向键来操作游戏。在 React 中，处理这种需要与浏览器 DOM 或 BOM API 交互的“副作用”（Side Effect），最自然的工具就是 `useEffect` Hook。
 我们的目标很简单：

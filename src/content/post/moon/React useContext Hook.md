@@ -1,9 +1,11 @@
----
+title: "React useContext Hook"
+description: "讲解 Context API 与 useContext 的工作原理、适用场景与完整示例，并提示 value 的 useMemo 缓存、拆分 Context、结合 useReducer 等性能与工程化实践。"
+publishDate: "2025-09-12"
+tags: ["React", "useContext", "Context", "状态管理", "性能优化"]
+draft: false
 type: Post
 status: Published
 date: 2025-07-27
-tags:
-  - 前端
 category: 技术分享
 ---
 ### 什么是 `useContext`？
