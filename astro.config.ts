@@ -17,6 +17,7 @@ import remarkDirective from "remark-directive"; /* Handle ::: directives as node
 import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; /* Add admonitions */
 import { remarkGithubCard } from "./src/plugins/remark-github-card";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
+import remarkNormalizeCodeLang from "./src/plugins/remark-normalize-code-lang";
 import { expressiveCodeOptions, siteConfig } from "./src/site.config";
 
 // https://astro.build/config
@@ -79,7 +80,13 @@ export default defineConfig({
 			],
 			rehypeUnwrapImages,
 		],
-		remarkPlugins: [remarkReadingTime, remarkDirective, remarkGithubCard, remarkAdmonitions],
+    remarkPlugins: [
+      remarkNormalizeCodeLang,
+      remarkReadingTime,
+      remarkDirective,
+      remarkGithubCard,
+      remarkAdmonitions,
+    ],
 		remarkRehype: {
 			footnoteLabelProperties: {
 				className: [""],
