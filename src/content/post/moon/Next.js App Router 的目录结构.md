@@ -1,12 +1,9 @@
+---
 title: "Next.js App Router 的目录结构"
 description: "梳理 App Router 的特殊文件、路由约定与高级组织模式：layout/page/loading/not-found/error、动态与可选路径、路由组、私有文件夹与并行路由等。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-21"
 tags: ["Next.js", "App Router", "路由", "目录结构", "布局"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-21
-category: 技术分享
 ---
 ### 一、关键特殊文件（Special Files）
 这些文件用于在特定路由段中创建 UI。它们必须使用 `.js`, `.jsx`, 或 `.tsx` 扩展名。
@@ -272,3 +269,4 @@ app/
 - **解耦复杂UI**: 将一个复杂的界面分解成多个独立的、可独立加载和处理错误的小块。
 - **状态在URL中**: 你甚至可以创建条件路由，比如让一个模态框成为一个并行路由 (`@modal`)，通过特定的 URL (`/dashboard?login=true`) 来显示它，使得UI状态可以被分享和收藏。
 - **健壮性**: 配合 `default.js`，即使在复杂的导航场景下也能保证 UI 的一致性和完整性，避免整个页面因为一个插槽不匹配而崩溃。
+---

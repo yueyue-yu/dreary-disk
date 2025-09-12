@@ -1,11 +1,9 @@
+---
 title: "CSS 定位"
 description: "对比 relative 与 absolute 的定位参考与占位特性，并总结使用绝对定位与 margin: auto 实现水平垂直居中的常见方式与注意点。"
 publishDate: "2025-09-12"
 tags: ["CSS", "定位", "absolute", "relative", "居中"]
 draft: false
-type: Post
-status: Published
-category: 技术分享
 ---
   
 
@@ -105,3 +103,4 @@ CSS 使用 **绝对定位（**`**position: absolute**`**）实现元素水平垂
 |---|---|---|---|---|
 |top/left + transform|否|IE9+、现代浏览器|灵活响应式、无需知道尺寸|少数旧浏览器兼容问题|
 |margin + 全边设0|是|现代浏览器|自动居中、自适应百分比布局|必须明确宽高，有局限|
+---

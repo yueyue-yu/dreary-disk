@@ -1,12 +1,9 @@
+---
 title: "CSS 3D"
 description: "系统讲解 CSS 3D：perspective、各类 transform、transform-style、transform-origin 与 backface-visibility 的作用与用法，并结合过渡/动画与常见交互示例。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-26"
 tags: ["CSS", "3D", "transform", "perspective", "动画"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-26
-category: 技术分享
 ---
 ### 1. `perspective` (透视)
 - **作用**: 定义了 3D 元素的透视深度，即“相机”到 Z=0 平面的距离。它决定了 3D 变换的强度。没有 `perspective` 属性，`translateZ` 等 3D 变换函数将看起来像 2D 缩放。
@@ -348,3 +345,4 @@ CSS 3D 变换可以结合 `transition` 和 `animation` 属性，实现平滑的 
         2. `translateZ(100px)`：将旋转好的面从中心点向外推出。`100px` 是立方体边长（200px）的一半。
     - 鼠标悬停时，我们旋转整个 `.cube` 容器，让你能从不同角度欣赏这个立体结构。
 /
+---

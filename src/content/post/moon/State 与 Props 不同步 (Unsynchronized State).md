@@ -1,12 +1,9 @@
+---
 title: "State 与 Props 不同步（Unsynchronized State）"
 description: "解析将 props 复制到 state 导致的不同步问题，并提供受控组件、使用 key 强制重置、派生值渲染与 useEffect 同步（谨慎）等解决方案。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-12"
 tags: ["React", "State", "Props", "受控组件", "Key"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-12
-category: 技术分享
 ---
 ### 核心概念：什么是“State 与 Props 不同步”？
 简单来说，这个问题的根源在于一个常见的错误做法：
@@ -131,3 +128,4 @@ function EditProfile({ userName }) {
 |**子组件有复杂内部状态，需随某个ID重置**|**使用** `**key**` **Prop**|React 最地道的重置组件方式，代码简洁且意图明确。|
 |**需要基于 Prop 显示一个计算值**|**派生状态 (在渲染中计算)**|简单直接，避免了不必要的 state。|
 |**（特殊情况）确实需要同步 Prop 到 State**|**使用** `**useEffect**`**（谨慎！）**|作为最后的手段。通常意味着你的组件设计可能存在问题，优先考虑前两种方案。|
+---

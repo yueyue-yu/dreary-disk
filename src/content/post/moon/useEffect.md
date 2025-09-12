@@ -1,12 +1,9 @@
+---
 title: "useEffect"
 description: "介绍 useEffect 的执行时机与依赖数组规则，清理函数的作用及常见陷阱（闭包、无限循环、函数依赖），并给出实践示例与修复策略。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-27"
 tags: ["React", "useEffect", "Hooks", "依赖数组", "副作用"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-27
-category: 技术分享
 ---
 ### 1. useEffect 是什么？
 `useEffect` 是一个 React Hook，它允许你在函数组件中执行**副作用（Side Effects）**。
@@ -242,3 +239,4 @@ useEffect(() => {
 3. ==**稳定引用类型**====：用== ==`useMemo`====/====`useCallback`== ==避免频繁重建。==
 4. ==**空数组需谨慎**====：确保 effect 不依赖任何可变值。==
 ==遵循这些原则，可以避免 90% 的== ==`useEffect`== ==相关 bug，并保证副作用的正确执行时机。==
+---

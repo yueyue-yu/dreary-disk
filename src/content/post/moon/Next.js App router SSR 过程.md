@@ -1,12 +1,9 @@
+---
 title: "Next.js App Router SSR 过程"
 description: "解析 App Router 下客户端组件与服务端组件的渲染与水合流程：客户端组件的预渲染与激活、服务端组件的 RSC Payload 与流式传输，并对比传统 SSR。"
-publishDate: "2025-09-12"
+publishDate: "2025-08-04"
 tags: ["Next.js", "SSR", "App Router", "RSC", "Hydration"]
 draft: false
-type: Post
-status: Published
-date: 2025-08-04
-category: 技术分享
 ---
 
 # **客户端组件（Client Component）**
@@ -341,3 +338,4 @@ export async function getServerSideProps(context) {
 |**组件模型**|所有组件本质上都是“客户端组件”，只是在服务端预渲染|严格区分服务端组件和客户端组件|
 |**性能瓶颈**|1. JS 包体积大，导致可交互时间 (TTI) 延迟。<br>2. 整个页面必须渲染完成才能发送。|1. JS 包体积小得多。<br>2. 支持流式渲染，FCP更快。|
 **核心区别**: 传统 SSR 的终点是“水合整个应用”，而 RSC 模式的终点是“用蓝图拼接 UI 并激活交互孤岛”。后者避免了在客户端重新执行大量渲染逻辑，并从根本上减少了发送到浏览器的 JavaScript 代码量。
+---

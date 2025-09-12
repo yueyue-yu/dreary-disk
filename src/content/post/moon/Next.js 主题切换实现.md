@@ -1,12 +1,9 @@
+---
 title: "Next.js 主题切换实现"
 description: "梳理 ThemeProvider/useTheme/ThemeSelector 的分层设计，结合 SSR 水合与 data-theme、localStorage 的细节，确保主题切换的稳定性与用户体验。"
-publishDate: "2025-09-12"
+publishDate: "2025-08-02"
 tags: ["Next.js", "主题切换", "React", "SSR", "状态管理"]
 draft: false
-type: Post
-status: Published
-date: 2025-08-02
-category: 技术分享
 ---
 # 整体架构概览
 主题切换系统由三个核心部分组成，它们各司其职，共同协作：
@@ -435,3 +432,4 @@ const contextValue = useMemo(() => ({
     1. `**useMemo**` 包裹了 `contextValue` 对象。
     2. 提供了**精确的依赖项数组** (`[currentTheme, currentThemeInfo, isInitialized]`)。
     3. 这确保了只有在主题或初始化状态真正改变时，才会触发下游组件的重渲染，从而避免了不必要的性能开销，使得 Context 的使用既方便又高效。
+---

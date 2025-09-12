@@ -1,12 +1,9 @@
+---
 title: "CSS background-size 使用指南"
 description: "对比 auto、100% 100%、cover、contain 等取值对图片拉伸、比例、填充与裁剪的影响，并给出常见场景与选择建议。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-05"
 tags: ["CSS", "background-size", "背景图", "布局"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-05
-category: 技术分享
 ---
 ### ✅ 总览表：不同 `background-size` 值对图片显示的影响
 |值|是否拉伸图片|是否保持比例|是否填满容器|是否裁剪|说明|
@@ -44,3 +41,4 @@ category: 技术分享
 - 避免图片失真 → **不要使用** `**100% 100%**`
 ---
 如你想看实际视觉对比效果，我可以写个 HTML+CSS 示例演示各值效果。需要吗？
+---

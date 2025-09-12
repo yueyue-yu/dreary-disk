@@ -1,12 +1,9 @@
+---
 title: "React createPortal：解决层叠上下文导致的 fixed 定位问题"
 description: "分析 transform 等属性创建层叠上下文导致 fixed 相对祖先定位的问题，并用 createPortal 将遮罩/抽屉挂载到 body，恢复视口定位与事件冒泡。"
-publishDate: "2025-09-12"
+publishDate: "2025-08-01"
 tags: ["React", "createPortal", "层叠上下文", "position: fixed", "CSS"]
 draft: false
-type: Post
-status: Published
-date: 2025-08-01
-category: 技术分享
 ---
   
 在前端开发中，开发者时常会遇到 `position: fixed` 元素未能如期相对于视口（Viewport）定位的挑战。一个典型场景是，当一个本应全屏显示的模态框（Modal）或侧边栏（Sidebar）组件被置于一个应用了特定 CSS 属性（如 `transform`）的父容器内时，其定位会意外地被限制在该父容器的范围内。此现象并非浏览器缺陷，而是由 CSS 的层叠上下文（Stacking Context）机制所致。本文旨在深入剖析该问题的成因，并阐述如何利用 React 的 `createPortal` API 作为标准解决方案。
@@ -99,3 +96,4 @@ export default function MobileNavigation() {
 - **事件冒泡**：Portal 内部触发的事件会沿着 React 组件树向上冒泡，直至其逻辑上的祖先组件。这确保了组件间的交互逻辑和状态管理能够按照预期工作，而这是原生 DOM 操作难以优雅实现的。
 ### 结论
 `createPortal` 是 React 开发者工具箱中用于处理覆盖式 UI（如模态框、抽屉、提示框）的关键工具。它提供了一种健壮且声明式的方法，来规避由 CSS 层叠上下文对 `position: fixed` 元素造成的布局限制。通过将组件的物理渲染与逻辑归属分离开来，`createPortal` 不仅解决了复杂的 CSS 定位问题，还保持了 React 应用架构的清晰性和可维护性，是构建高质量用户界面的推荐实践。
+---

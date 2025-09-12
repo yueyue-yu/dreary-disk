@@ -1,12 +1,9 @@
+---
 title: "React useContext Hook"
 description: "讲解 Context API 与 useContext 的工作原理、适用场景与完整示例，并提示 value 的 useMemo 缓存、拆分 Context、结合 useReducer 等性能与工程化实践。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-27"
 tags: ["React", "useContext", "Context", "状态管理", "性能优化"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-27
-category: 技术分享
 ---
 ### 什么是 `useContext`？
 `useContext` 是 React 提供的一个 Hook，它能让你在组件树中轻松地订阅（读取）和更新 React Context 的值。它的主要目的是解决 **“属性下钻”（Prop Drilling）** 的问题，让你能够跨越多个层级，直接在深层嵌套的子组件中访问全局或共享的状态，而无需手动地将 props 一层一层地传递下去。
@@ -148,3 +145,4 @@ export default ThemedButton;
 5. **组件的复用性**
     - 一个组件如果使用了某个 Context，它就与这个 Context 产生了耦合。这意味着你不能在没有相应 `Provider` 的环境下单独使用这个组件（除非你处理了默认值的情况）。在设计可复用组件库时要特别注意这一点。
 总而言之，`useContext` 是 React Hooks 生态中一个解决特定问题的强大工具，理解其原理和适用场景，并注意其性能陷阱，就能在项目中发挥出它的最大价值。
+---

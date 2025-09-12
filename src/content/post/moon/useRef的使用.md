@@ -1,12 +1,9 @@
+---
 title: "React useRef 的使用"
 description: "介绍 useRef 的原理与常见用法：访问 DOM、存储不触发渲染的可变数据，并给出聚焦输入框与定时器等示例。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-16"
 tags: ["React", "useRef", "Hooks", "DOM", "前端"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-16
-category: 技术分享
 ---
 ### `useRef` 概览
 `useRef` 是一个 React Hook，它允许你在函数组件中创建一个可变的、持久化的引用。它就像是为你的组件实例提供了一个“盒子”，你可以在这个盒子里存放任何可变的值，并且这个“盒子”在组件的整个生命周期内都保持不变。
@@ -172,3 +169,4 @@ function Stopwatch() {
 |**是否触发重渲染**|**否**|**是**|
 |**典型用例**|DOM引用、定时器ID、实例变量|表单输入、UI状态（如开关）、服务器数据|
 `useRef` 是 React Hooks 工具箱中一个强大而精准的工具。正确理解它的原理和适用场景，可以帮助你编写出更高效、更清晰的 React 组件。
+---

@@ -1,12 +1,9 @@
+---
 title: "JS 深拷贝"
 description: "介绍深拷贝与浅拷贝的区别，并比较多种实现方式（JSON、structuredClone、Lodash、手写递归），各自优缺点与适用场景。"
-publishDate: "2025-09-12"
+publishDate: "2025-08-06"
 tags: ["JavaScript", "深拷贝", "structuredClone", "Lodash"]
 draft: false
-type: Post
-status: Published
-date: 2025-08-06
-category: 技术分享
 ---
 ### 1. 为什么需要深拷贝？（与浅拷贝的对比）
 要理解深拷贝，首先必须明白什么是**浅拷贝 (Shallow Copy)**。
@@ -204,3 +201,4 @@ console.log(obj2.d === obj2); // 输出: true (循环引用被正确处理)
 **总的建议：**
 
 > 优先使用 structuredClone()。如果环境不支持或需要拷贝函数，再考虑使用 Lodash 的 _.cloneDeep()。
+---

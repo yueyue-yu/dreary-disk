@@ -1,12 +1,9 @@
+---
 title: "React useState 使用"
 description: "梳理 useState 的渲染触发与 Object.is 比较规则、React 18 自动批处理、闭包陷阱与函数式更新、不可变性、Hooks 规则及惰性初始化。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-12"
 tags: ["React", "useState", "状态管理", "批处理", "不可变性"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-12
-category: 技术分享
 ---
 ### `useState` 的渲染时机
 `useState` 的核心作用是让函数组件拥有自己的状态（state），并在状态变更时触发组件的重新渲染（re-render），从而更新 UI。
@@ -161,3 +158,4 @@ const [data, setData] = useState(() => {
 |---|---|
 |**渲染时机**|1. 调用 `set` 函数 **调度** 更新。2. 仅当新旧值**不同**时才触发。3. React 会**批处理**多次更新，通常只引发一次渲染。|
 |**注意事项**|1. **异步更新**：不要期望 `set` 后立即获取新值，使用 `useEffect` 或函数式更新。2. **不可变性**：绝不直接修改对象或数组，永远创建新的。3. **Hooks 规则**：只在顶层调用。4. **惰性初始化**：对于昂贵的初始值计算，使用函数 `useState(() => ...)`。|
+---

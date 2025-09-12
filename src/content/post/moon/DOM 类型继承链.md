@@ -1,12 +1,9 @@
+---
 title: "DOM 类型继承链"
 description: "可视化梳理 DOM 的继承结构：从 EventTarget 到 Node、Element、HTMLElement 及具体元素，并补充 Text/Comment/Document 分支与 instanceof 验证方法。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-29"
 tags: ["DOM", "继承", "JavaScript", "浏览器", "EventTarget"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-29
-category: 技术分享
 ---
   
 ### DOM 类型继承链（可视化）
@@ -121,3 +118,4 @@ category: 技术分享
     ```
     
 这个清晰的、层层递进的继承模型，是 DOM 设计得如此强大和灵活的根本原因。
+---

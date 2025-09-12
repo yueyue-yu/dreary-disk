@@ -1,3 +1,4 @@
+---
 title: "CSS 单位详解"
 description: "总结字体相对单位（em/rem/ex/ch）、视口单位（vw/vh/vmin/vmax）与百分比在不同属性下的参照物及注意事项，助力可伸缩与响应式设计。"
 publishDate: "2025-09-12"
@@ -42,3 +43,4 @@ draft: false
 | `transform: translate()` | **元素自身的 `width` / `height`** | `translateX(50%)` 指移动自身宽度的50%，常用于居中。 |
 | `border-radius` | **元素自身的 `width` / `height`** | 用于创建圆形或椭圆角。 |
 | `background-size`, `background-position`| **元素自身的尺寸** | 控制背景图的大小和位置。 |
+---

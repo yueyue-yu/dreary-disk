@@ -1,12 +1,9 @@
+---
 title: "DOM 事件流"
 description: "讲解捕获-目标-冒泡三阶段的传播路径与监听方式，结合示例观察执行顺序，并引出事件委托在冒泡阶段的应用。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-10"
 tags: ["DOM", "事件流", "捕获", "冒泡", "事件委托"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-10
-category: 技术分享
 ---
 ### 1. 捕获阶段 (Capturing Phase)
 这个阶段是事件从 DOM 树的顶端向目标元素传播的过程。
@@ -80,3 +77,4 @@ document.addEventListener('click', () => {
 1. **向下捕获**：事件从 `document` 走到 `parent`。
 2. **到达目标**：事件到达 `child` 并执行其处理函数。
 3. **向上冒泡**：事件从 `child`（虽然它自己没有冒泡监听器）冒泡到 `parent`，再到 `document`。
+---

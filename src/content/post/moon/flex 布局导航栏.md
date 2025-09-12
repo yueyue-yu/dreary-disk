@@ -1,12 +1,9 @@
+---
 title: "Flex 布局导航栏与两栏布局"
 description: "用 Flexbox 实现导航项对齐（margin: auto、space-between、弹簧元素）及“左侧固定、右侧自适应”的经典两栏布局，含关键 flex 参数解析。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-07"
 tags: ["CSS", "Flexbox", "导航栏", "布局", "侧边栏"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-07
-category: 技术分享
 ---
 # **🚀 Flex 布局实现经典导航栏对齐效果**
 在构建导航栏时，常见需求是将某个导航项（如“退出登录”）**推到底部或右侧**。使用 Flexbox，可以优雅、简洁地实现这一布局，而无需复杂的嵌套或多余的空元素。
@@ -232,3 +229,4 @@ category: 技术分享
 - **宽度 (交叉轴尺寸)**:
     - 默认情况下，align-items 的值是 stretch。这意味着项目的宽度会 **自动拉伸**，以填满 Flex 容器的宽度。
     - 如果你设置了 align-items: flex-start, center, 或 flex-end，那么项目的宽度将不再拉伸，而是会由其 **内容** 决定，即 "shrink-to-fit"。
+---

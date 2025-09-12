@@ -1,12 +1,9 @@
+---
 title: "Immer 库"
 description: "介绍 Immer 的理念与使用：以可变写法生成不可变状态，结合 React Hooks 的实践（useImmer/useImmerReducer），并解析 Proxy 与写时复制的原理与最佳实践。"
-publishDate: "2025-09-12"
+publishDate: "2025-07-12"
 tags: ["JavaScript", "Immer", "不可变", "React", "状态管理"]
 draft: false
-type: Post
-status: Published
-date: 2025-07-12
-category: 技术分享
 ---
 ### 1. 什么是 Immer？
 Immer 是一个用于处理不可变（Immutable）状态的小型库。它的核心思想是：**用你习惯的可变（Mutable）方式来编写代码，最终却能得到一个不可变的（Immutable）结果**。
@@ -207,3 +204,4 @@ Immer 是一个优雅而强大的工具，它完美地解决了 JavaScript 中�
     - Redux 和 Redux Toolkit（Redux Toolkit 内部已经深度集成了 Immer）。
     - 任何需要进行不可变数据操作的 JavaScript 环境。
 如果你还在为管理复杂的 React 状态而烦恼，强烈推荐你尝试使用 Immer，它会极大地提升你的开发幸福感。
+---
