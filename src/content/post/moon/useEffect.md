@@ -1,8 +1,10 @@
 ---
-title: "useEffect"
-description: "介绍 useEffect 的执行时机与依赖数组规则，清理函数的作用及常见陷阱（闭包、无限循环、函数依赖），并给出实践示例与修复策略。"
-publishDate: "2025-07-27"
-tags: ["React", "useEffect", "Hooks", "依赖数组", "副作用"]
+title: useEffect
+description: 介绍 useEffect 的执行时机与依赖数组规则，清理函数的作用及常见陷阱（闭包、无限循环、函数依赖），并给出实践示例与修复策略。
+publishDate: 2025-07-27
+tags:
+  - React
+  - Hooks
 draft: false
 ---
 ### 1. useEffect 是什么？

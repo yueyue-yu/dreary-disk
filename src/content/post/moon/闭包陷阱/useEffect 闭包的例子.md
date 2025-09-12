@@ -1,8 +1,9 @@
 ---
-title: "useEffect 闭包的例子"
-description: "以键盘事件为例说明 useEffect 的陈旧闭包问题，先用函数式更新修正逻辑，再结合 useCallback 稳定函数引用，避免频繁解绑/绑定。"
-publishDate: "2025-09-12"
-tags: ["React", "useEffect", "闭包", "Hooks", "性能优化"]
+title: useEffect 闭包的例子
+description: 以键盘事件为例说明 useEffect 的陈旧闭包问题，先用函数式更新修正逻辑，再结合 useCallback 稳定函数引用，避免频繁解绑/绑定。
+publishDate: 2025-09-12
+tags:
+  - React
 draft: false
 ---
 

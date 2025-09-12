@@ -1,8 +1,9 @@
 ---
-title: "React State 保留与重置"
-description: "围绕位置、类型与 key 三要素，说明 React 何时复用组件并保留状态，何时卸载并重置；覆盖条件渲染、不同类型与关键字强制重置的典型场景。"
-publishDate: "2025-07-12"
-tags: ["React", "State", "保留", "重置", "Key"]
+title: React State 保留与重置
+description: 围绕位置、类型与 key 三要素，说明 React 何时复用组件并保留状态，何时卸载并重置；覆盖条件渲染、不同类型与关键字强制重置的典型场景。
+publishDate: 2025-07-12
+tags:
+  - React
 draft: false
 ---
 ### 核心概念：位置、类型、Key

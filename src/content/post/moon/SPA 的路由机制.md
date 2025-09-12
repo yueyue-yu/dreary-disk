@@ -1,8 +1,9 @@
 ---
-title: "SPA 的路由机制"
-description: "阐述单页应用为何需要路由，对比 Hash 与 History 两种实现的核心原理、事件与优缺点，并说明 Router 如何同步 URL 与视图状态。"
-publishDate: "2025-07-29"
-tags: ["前端", "SPA", "路由", "Hash", "History", "popstate"]
+title: SPA 的路由机制
+description: 阐述单页应用为何需要路由，对比 Hash 与 History 两种实现的核心原理、事件与优缺点，并说明 Router 如何同步 URL 与视图状态。
+publishDate: 2025-07-29
+tags:
+  - JavaScript
 draft: false
 ---
 ### 1. 问题的根源：为什么我们需要前端路由？

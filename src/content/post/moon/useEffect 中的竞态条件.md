@@ -1,8 +1,9 @@
 ---
-title: "useEffect 中的竞态条件"
-description: "解析 useEffect 中异步请求的竞态根因与典型场景，并给出清理函数、AbortController 与自定义 Hook 等方案，确保仅最新一次副作用结果更新状态。"
-publishDate: "2025-09-12"
-tags: ["React", "useEffect", "竞态", "异步", "AbortController", "Hooks"]
+title: useEffect 中的竞态条件
+description: 解析 useEffect 中异步请求的竞态根因与典型场景，并给出清理函数、AbortController 与自定义 Hook 等方案，确保仅最新一次副作用结果更新状态。
+publishDate: 2025-09-12
+tags:
+  - React
 draft: false
 ---
 

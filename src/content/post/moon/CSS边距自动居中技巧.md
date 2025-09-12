@@ -1,8 +1,9 @@
 ---
-title: "CSS 边距自动居中技巧"
+title: CSS 边距自动居中技巧
 description: "解析 margin: auto 的工作原理，并在普通流、Flex、Grid 与绝对定位中实现水平/垂直居中与推挤布局，同时总结常见坑与修复方法。"
-publishDate: "2025-09-12"
-tags: ["CSS", "margin", "居中", "Flexbox", "Grid", "定位"]
+publishDate: 2025-09-12
+tags:
+  - CSS
 draft: false
 ---
 

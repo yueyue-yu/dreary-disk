@@ -1,8 +1,10 @@
 ---
-title: "Hydration 过程"
-description: "解构 SSR 中的 Hydration：复用服务器生成的 DOM，通过 hydrate 附加事件与状态以接管应用，并说明不匹配（mismatch）的成因与影响。"
-publishDate: "2025-08-04"
-tags: ["SSR", "Hydration", "React", "前端", "同构"]
+title: Hydration 过程
+description: 解构 SSR 中的 Hydration：复用服务器生成的 DOM，通过 hydrate 附加事件与状态以接管应用，并说明不匹配（mismatch）的成因与影响。
+publishDate: 2025-08-04
+tags:
+  - SSR
+  - 前端
 draft: false
 ---
 **Hydration (通常翻译为“激活”或“水合”)** 是 SSR 流程中至关重要的一步。它就像是给服务器端渲染出的“静态骨架”注入“灵魂”的过程。

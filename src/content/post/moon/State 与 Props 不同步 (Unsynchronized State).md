@@ -1,8 +1,9 @@
 ---
-title: "State 与 Props 不同步（Unsynchronized State）"
-description: "解析将 props 复制到 state 导致的不同步问题，并提供受控组件、使用 key 强制重置、派生值渲染与 useEffect 同步（谨慎）等解决方案。"
-publishDate: "2025-07-12"
-tags: ["React", "State", "Props", "受控组件", "Key"]
+title: State 与 Props 不同步（Unsynchronized State）
+description: 解析将 props 复制到 state 导致的不同步问题，并提供受控组件、使用 key 强制重置、派生值渲染与 useEffect 同步（谨慎）等解决方案。
+publishDate: 2025-07-12
+tags:
+  - React
 draft: false
 ---
 ### 核心概念：什么是“State 与 Props 不同步”？

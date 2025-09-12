@@ -1,8 +1,9 @@
 ---
-title: "CSS 单位详解"
-description: "总结字体相对单位（em/rem/ex/ch）、视口单位（vw/vh/vmin/vmax）与百分比在不同属性下的参照物及注意事项，助力可伸缩与响应式设计。"
-publishDate: "2025-09-12"
-tags: ["CSS", "单位", "rem", "vw", "百分比"]
+title: CSS 单位详解
+description: 总结字体相对单位（em/rem/ex/ch）、视口单位（vw/vh/vmin/vmax）与百分比在不同属性下的参照物及注意事项，助力可伸缩与响应式设计。
+publishDate: 2025-09-12
+tags:
+  - CSS
 draft: false
 ---
 

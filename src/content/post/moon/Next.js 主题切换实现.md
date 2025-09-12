@@ -1,8 +1,10 @@
 ---
-title: "Next.js 主题切换实现"
-description: "梳理 ThemeProvider/useTheme/ThemeSelector 的分层设计，结合 SSR 水合与 data-theme、localStorage 的细节，确保主题切换的稳定性与用户体验。"
-publishDate: "2025-08-02"
-tags: ["Next.js", "主题切换", "React", "SSR", "状态管理"]
+title: Next.js 主题切换实现
+description: 梳理 ThemeProvider/useTheme/ThemeSelector 的分层设计，结合 SSR 水合与 data-theme、localStorage 的细节，确保主题切换的稳定性与用户体验。
+publishDate: 2025-08-02
+tags:
+  - Next.js
+  - React
 draft: false
 ---
 # 整体架构概览

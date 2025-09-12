@@ -1,8 +1,9 @@
 ---
-title: "CSS 定位"
+title: CSS 定位
 description: "对比 relative 与 absolute 的定位参考与占位特性，并总结使用绝对定位与 margin: auto 实现水平垂直居中的常见方式与注意点。"
-publishDate: "2025-09-12"
-tags: ["CSS", "定位", "absolute", "relative", "居中"]
+publishDate: 2025-09-12
+tags:
+  - CSS
 draft: false
 ---
   

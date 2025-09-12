@@ -1,8 +1,9 @@
 ---
-title: "React useState 使用"
-description: "梳理 useState 的渲染触发与 Object.is 比较规则、React 18 自动批处理、闭包陷阱与函数式更新、不可变性、Hooks 规则及惰性初始化。"
-publishDate: "2025-07-12"
-tags: ["React", "useState", "状态管理", "批处理", "不可变性"]
+title: React useState 使用
+description: 梳理 useState 的渲染触发与 Object.is 比较规则、React 18 自动批处理、闭包陷阱与函数式更新、不可变性、Hooks 规则及惰性初始化。
+publishDate: 2025-07-12
+tags:
+  - React
 draft: false
 ---
 ### `useState` 的渲染时机
