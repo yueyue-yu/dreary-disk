@@ -1,0 +1,32 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	description: "朋友们的站点与资源",
+	title: "友链",
+};
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-12">友链</h1>
+	<div class="prose prose-sm prose-cactus max-w-none">
+		<p>在这里展示你的朋友站点或推荐资源。示例：</p>
+		<ul class="list-inside list-disc" role="list">
+			<li>
+				<a
+					class="cactus-link inline-block"
+					href="https://example.com/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Example Site
+				</a>
+				<span class="text-xs text-gray-500 dark:text-gray-400"> — 可选描述</span>
+			</li>
+		</ul>
+		<p class="mt-6 text-sm text-gray-500 dark:text-gray-400">
+			你可以自由编辑此页面内容或改为从数据文件读取。
+		</p>
+	</div>
+</PageLayout>
+

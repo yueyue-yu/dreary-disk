@@ -33,17 +33,21 @@ export const siteConfig: SiteConfig = {
 // Used to generate links in both the Header & Footer.
 export const menuLinks: { path: string; title: string }[] = [
 	{
-		path: "/",
-		title: "Home",
+		path: "/posts/",
+		title: "文章",
+	},
+	{
+		path: "/tags/",
+		title: "标签",
 	},
 	{
 		path: "/about/",
-		title: "About",
+		title: "关于",
 	},
-	{
-		path: "/posts/",
-		title: "Blog",
-	},
+	// {
+	// 	path: "/links/",
+	// 	title: "友链",
+	// },
 ];
 
 // https://expressive-code.com/reference/configuration/

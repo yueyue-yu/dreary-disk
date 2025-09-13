@@ -39,12 +39,4 @@ const post = defineCollection({
 
 // Notes collection removed for projects that don't use notes.
 
-const tag = defineCollection({
-	loader: glob({ base: "./src/content/tag", pattern: "**/*.{md,mdx}" }),
-	schema: z.object({
-		title: titleSchema.optional(),
-		description: z.string().optional(),
-	}),
-});
-
-export const collections = { post, tag };
+export const collections = { post };

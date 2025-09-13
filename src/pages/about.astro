@@ -2,35 +2,24 @@
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	description: "I'm a starter theme for Astro.build",
+	description: "To see a World in a Grain of Sand…",
 	title: "About",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-12">About</h1>
-	<div class="prose prose-sm prose-cactus max-w-none">
-		<p>
-			Hi, I’m a starter Astro. I’m particularly great for getting you started with your own blogging
-			website.
-		</p>
-		<p>Here are my some of my awesome built in features:</p>
-		<ul class="list-inside list-disc" role="list">
-			<li>I'm ultra fast as I'm a static site</li>
-			<li>I'm fully responsive</li>
-			<li>I come with a light and dark mode</li>
-			<li>I'm easy to customise and add additional content</li>
-			<li>I have Tailwind CSS styling</li>
-			<li>Shiki code syntax highlighting</li>
-			<li>Satori for auto generating OG images for blog posts</li>
-		</ul>
-		<p>
-			Clone or fork my <a
-				class="cactus-link inline-block"
-				href="https://github.com/chrismwilliams/astro-cactus"
-				rel="noreferrer"
-				target="_blank">repo</a
-			> if you like me!
-		</p>
-	</div>
+    <h1 class="title mb-12">About</h1>
+    <figure class="mx-auto my-16 max-w-2xl text-center">
+        <blockquote class="font-serif text-2xl leading-relaxed tracking-wide italic text-accent-2">
+            <p>
+                To see a World in a Grain of Sand<br />
+                And a Heaven in a Wild Flower,<br />
+                Hold Infinity in the palm of your hand<br />
+                And Eternity in an hour.
+            </p>
+        </blockquote>
+        <figcaption class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+            — William Blake, “Auguries of Innocence”
+        </figcaption>
+    </figure>
 </PageLayout>
