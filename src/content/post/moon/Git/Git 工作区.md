@@ -33,7 +33,7 @@ draft: false
 ---
 
 ## 文件的状态变化
-![](./assets/Pro%20Git/Pro%20Git-1757727620394.webp)
+![](./assets/Git%20工作区/Pro%20Git-1757727620394.webp)
 
 
 
