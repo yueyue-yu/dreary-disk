@@ -1,0 +1,41 @@
+---
+import PostPreview from "@/components/blog/PostPreview.astro";
+import { getAllPosts } from "@/data/post";
+import PageLayout from "@/layouts/Base.astro";
+import { collectionDateSort } from "@/utils/date";
+
+const MAX_POSTS = 10;
+const allPosts = await getAllPosts();
+const posts = allPosts.sort(collectionDateSort).slice(0, MAX_POSTS);
+
+const meta = {
+  description: "Latest articles",
+  title: "Posts",
+};
+---
+
+<PageLayout meta={meta}>
+  <div class="mb-12 flex items-center gap-3">
+    <h1 class="title">Posts</h1>
+    <a class="text-accent" href="/rss.xml" target="_blank">
+      <span class="sr-only">RSS feed</span>
+      <svg aria-hidden="true" class="h-6 w-6" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0h24v24H0z" fill="none" />
+        <path d="M6.18 17.82a1.82 1.82 0 11-3.64 0 1.82 1.82 0 013.64 0zM2.5 8.11v2.91c5.22 0 9.45 4.23 9.45 9.45h2.91c0-6.86-5.5-12.36-12.36-12.36zm0-5.61v2.92c8.93 0 16.17 7.24 16.17 16.17h2.92C21.59 9.78 12.41.5 2.5.5z" fill="currentColor" />
+      </svg>
+    </a>
+  </div>
+
+  <ul class="space-y-4">
+    {posts.map((p) => (
+      <li class="grid gap-1 sm:grid-cols-[auto_1fr]">
+        <PostPreview as="h2" post={p} />
+      </li>
+    ))}
+  </ul>
+
+  <div class="mt-10 text-end">
+    <a class="cactus-link inline-block" href="/posts/">View all →</a>
+  </div>
+</PageLayout>
+
