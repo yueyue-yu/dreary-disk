@@ -2,18 +2,18 @@
 	"name": "dreary-disk",
 	"type": "module",
 	"version": "6.8.0",
-	"scripts": {
-		"dev": "astro dev",
-		"start": "astro dev",
-		"build": "astro build",
-		"postbuild": "pagefind --site dist",
-		"preview": "astro preview",
-		"lint": "biome lint .",
-		"format": "pnpm run format:code && pnpm run format:imports",
-		"format:code": "biome format . --write && prettier -w \"**/*\" \"!**/*.{md,mdx}\" --ignore-unknown --cache",
-		"format:imports": "biome check --formatter-enabled=false --write",
-		"check": "astro check"
-	},
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "postbuild": "pagefind --site dist",
+    "preview": "astro preview",
+    "lint": "biome lint .",
+    "format": "pnpm run format:code && pnpm run format:imports",
+    "format:code": "biome format . --write && prettier -w \"**/*\" \"!**/*.{md,mdx}\" --ignore-unknown --cache",
+    "format:imports": "biome check --formatter-enabled=false --write",
+    "check": "astro check"
+  },
 	"dependencies": {
 		"@astrojs/markdown-remark": "^6.3.2",
 		"@astrojs/mdx": "4.3.0",

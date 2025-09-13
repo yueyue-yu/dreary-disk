@@ -2,36 +2,50 @@
 import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import { menuLinks } from "@/site.config";
-import {siteConfig} from "../../site.config";
+import { siteConfig } from "../../site.config";
+import { Icon } from "astro-icon/components";
 ---
 
 <header class="group relative mb-28 flex items-center sm:ps-18" id="main-header">
 	<div class="flex sm:flex-col">
 		<a
 			aria-current={Astro.url.pathname === "/" ? "page" : false}
-			class="inline-flex items-center grayscale hover:filter-none sm:relative sm:inline-block"
+			class="group inline-flex items-center grayscale hover:filter-none sm:relative sm:inline-block"
 			href="/"
 		>
-			<svg
-				aria-hidden="true"
-				class="me-3 h-10 w-6 sm:absolute sm:-start-18 sm:me-0 sm:h-20 sm:w-12"
-				fill="none"
-				focusable="false"
-				viewBox="0 0 272 480"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<title>Logo</title>
-				<path
-					d="M181.334 93.333v-40L226.667 80v40l-45.333-26.667ZM136.001 53.333 90.667 26.667v426.666L136.001 480V53.333Z"
-					fill="#B04304"></path>
-				<path
-					d="m136.001 119.944 45.333-26.667 45.333 26.667-45.333 26.667-45.333-26.667ZM90.667 26.667 136.001 0l45.333 26.667-45.333 26.666-45.334-26.666ZM181.334 53.277l45.333-26.666L272 53.277l-45.333 26.667-45.333-26.667ZM0 213.277l45.333-26.667 45.334 26.667-45.334 26.667L0 213.277ZM136 239.944l-45.333-26.667v53.333L136 239.944Z"
-					fill="#FF5D01"></path>
-				<path
-					d="m136 53.333 45.333-26.666v120L226.667 120V80L272 53.333V160l-90.667 53.333v240L136 480V306.667L45.334 360V240l45.333-26.667v53.334L136 240V53.333Z"
-					fill="#53C68C"></path>
-				<path d="M45.334 240 0 213.334v120L45.334 360V240Z" fill="#B04304"></path>
-			</svg>
+			<span class="moon-logo relative me-3 inline-block h-10 w-10 sm:absolute sm:-start-18 sm:me-0 sm:h-12 sm:w-12">
+				<Icon aria-hidden="true" name="mdi:moon-new"             class="phase phase-1 absolute inset-0 h-full w-full text-accent" />
+				<Icon aria-hidden="true" name="mdi:moon-waxing-crescent" class="phase phase-2 absolute inset-0 h-full w-full text-accent" />
+				<Icon aria-hidden="true" name="mdi:moon-first-quarter"   class="phase phase-3 absolute inset-0 h-full w-full text-accent" />
+				<Icon aria-hidden="true" name="mdi:moon-waxing-gibbous"  class="phase phase-4 absolute inset-0 h-full w-full text-accent" />
+				<Icon aria-hidden="true" name="mdi:moon-full"            class="phase phase-5 absolute inset-0 h-full w-full text-accent" />
+				<Icon aria-hidden="true" name="mdi:moon-waning-gibbous"  class="phase phase-6 absolute inset-0 h-full w-full text-accent" />
+				<Icon aria-hidden="true" name="mdi:moon-last-quarter"    class="phase phase-7 absolute inset-0 h-full w-full text-accent" />
+				<Icon aria-hidden="true" name="mdi:moon-waning-crescent" class="phase phase-8 absolute inset-0 h-full w-full text-accent" />
+			</span>
+			<style is:inline>
+				.moon-logo > .phase { opacity: 0; will-change: opacity; backface-visibility: hidden; pointer-events: none; }
+				.moon-logo > .phase-1 { opacity: 1; }
+				/* Discrete steps to avoid any cross-fade between frames */
+				.moon-logo:hover > .phase { animation-duration: 4s; animation-timing-function: steps(1, end); animation-iteration-count: infinite; }
+				.moon-logo:hover > .phase-1 { animation-name: moon-phase-1; }
+				.moon-logo:hover > .phase-2 { animation-name: moon-phase-2; }
+				.moon-logo:hover > .phase-3 { animation-name: moon-phase-3; }
+				.moon-logo:hover > .phase-4 { animation-name: moon-phase-4; }
+				.moon-logo:hover > .phase-5 { animation-name: moon-phase-5; }
+				.moon-logo:hover > .phase-6 { animation-name: moon-phase-6; }
+				.moon-logo:hover > .phase-7 { animation-name: moon-phase-7; }
+				.moon-logo:hover > .phase-8 { animation-name: moon-phase-8; }
+
+				@keyframes moon-phase-1 {  0%{opacity:1} 12.49%{opacity:1} 12.5%{opacity:0} 100%{opacity:0} }
+				@keyframes moon-phase-2 { 12.5%{opacity:1} 24.99%{opacity:1} 25%{opacity:0} 100%{opacity:0} }
+				@keyframes moon-phase-3 { 25%{opacity:1} 37.49%{opacity:1} 37.5%{opacity:0} 100%{opacity:0} }
+				@keyframes moon-phase-4 { 37.5%{opacity:1} 49.99%{opacity:1} 50%{opacity:0} 100%{opacity:0} }
+				@keyframes moon-phase-5 { 50%{opacity:1} 62.49%{opacity:1} 62.5%{opacity:0} 100%{opacity:0} }
+				@keyframes moon-phase-6 { 62.5%{opacity:1} 74.99%{opacity:1} 75%{opacity:0} 100%{opacity:0} }
+				@keyframes moon-phase-7 { 75%{opacity:1} 87.49%{opacity:1} 87.5%{opacity:0} 100%{opacity:0} }
+				@keyframes moon-phase-8 { 87.5%{opacity:1} 100%{opacity:1} }
+			</style>
 			<span class="text-xl font-bold sm:text-2xl">{siteConfig.title}</span>
 		</a>
 		<nav

@@ -7,10 +7,22 @@ const year = new Date().getFullYear();
 <footer
 	class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pt-20 pb-4 text-center align-top font-semibold text-gray-600 sm:flex-row sm:justify-between sm:text-xs dark:text-gray-400"
 >
-	<div class="me-0 sm:me-4">
-		&copy; {siteConfig.author}
-		{year}.<span class="inline-block">&nbsp;🚀&nbsp;{siteConfig.title}</span>
-	</div>
+    <div class="me-0 sm:me-4">
+        &copy; {siteConfig.author} {year}
+        <span class="inline-flex items-center px-1 align-middle">
+            <svg
+                aria-hidden="true"
+                class="h-4 w-4 text-gray-500 dark:text-gray-400"
+                fill="currentColor"
+                focusable="false"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M12.1 21.35c-.07.06-.18.06-.25 0l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6.01 4.01 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 17.99 4 20 6.01 20 8.5c0 3.78-3.4 6.86-8.05 11.53l-1.45 1.32z"/>
+            </svg>
+        </span>
+        <span class="inline-block">{siteConfig.title}</span>
+    </div>
 	<nav
 		aria-labelledby="footer_links"
 		class="flex gap-x-2 sm:gap-x-0 sm:divide-x sm:divide-gray-500"

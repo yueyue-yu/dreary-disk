@@ -3,17 +3,35 @@
 /* config for tailwindcss-typography plugin */
 @config "../../tailwind.config.ts";
 
+/* Font stacks (open-source alternatives to Claude official stack) */
+:root {
+  --font-fallback-sans: system-ui, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-fallback-serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", Georgia, "Times New Roman", Times, serif;
+  --font-fallback-monospace: ui-monospace, Menlo, Monaco, Consolas, "Noto Sans Mono CJK SC", monospace;
+
+  /* Open-source mapping */
+  --font-styrene-b: "Noto Sans", "Noto Sans SC";              /* UI sans replacement */
+  --font-tiempos: "Source Serif 4";       /* Claude response serif replacement */
+  --font-jetbrains: "JetBrains Mono";     /* code mono */
+
+  /* Public tokens */
+  --font-ui: var(--font-styrene-b), var(--font-fallback-sans);
+  --font-claude-response: var(--font-tiempos), var(--font-fallback-serif);
+  --font-mono: var(--font-jetbrains), var(--font-fallback-monospace);
+}
+
 /* use a selector-based strategy for dark mode */
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /* you could refactor below to use light-dark(), depending on your target audience */
 @theme {
-	--color-global-bg: oklch(98.48% 0 0);
-	--color-global-text: oklch(26.99% 0.0096 235.05);
-	--color-link: oklch(55.44% 0.0431 185.69);
-	--color-accent: oklch(55.27% 0.195 19.06);
-	--color-accent-2: oklch(18.15% 0 0);
-	--color-quote: oklch(55.27% 0.195 19.06);
+  /* Claude official palette mapping (light mode) */
+  --color-global-bg: hsl(0 0% 100%);        /* bg-000 */
+  --color-global-text: hsl(60 2.6% 7.6%);    /* text-000 */
+  --color-link: hsl(210 70.9% 51.6%);        /* accent-secondary-100 */
+  --color-accent: hsl(210 70.9% 51.6%);      /* accent-secondary-100 */
+  --color-accent-2: hsl(60 2.6% 7.6%);       /* headings use primary text */
+  --color-quote: hsl(15 63.1% 59.6%);        /* accent-brand */
 }
 
 @layer base {
@@ -28,12 +46,13 @@
 
 		&[data-theme="dark"] {
 			color-scheme: dark;
-			--color-global-bg: oklch(23.64% 0.0045 248);
-			--color-global-text: oklch(83.54% 0 264);
-			--color-link: oklch(70.44% 0.1133 349);
-			--color-accent: oklch(70.91% 0.1415 163.7);
-			--color-accent-2: oklch(94.66% 0 0);
-			--color-quote: oklch(94.8% 0.106 136.49);
+			/* Claude official palette mapping (dark mode) */
+			--color-global-bg: hsl(60 2.1% 18.4%);   /* bg-000 */
+			--color-global-text: hsl(48 33.3% 97.1%); /* text-000 */
+			--color-link: hsl(210 71.1% 62%);        /* accent-secondary-000 */
+			--color-accent: hsl(210 71.1% 62%);      /* accent-secondary-000 */
+			--color-accent-2: hsl(48 33.3% 97.1%);
+			--color-quote: hsl(15 63.1% 59.6%);      /* accent-brand */
 		}
 	}
 
@@ -68,6 +87,19 @@
 
 	.title {
 		@apply text-accent-2 text-2xl font-semibold;
+	}
+
+	/* Claude response serif region (articles, poems, etc.) */
+	.claude-response {
+		font-family: var(--font-claude-response);
+	}
+
+	/* Ensure code uses mono stack consistently */
+	.prose code,
+	.prose kbd,
+	.prose samp,
+	.expressive-code {
+		font-family: var(--font-mono);
 	}
 }
 
