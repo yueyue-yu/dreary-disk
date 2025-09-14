@@ -98,7 +98,7 @@ draft: false
 
 ---
 
-# Git Merge 和 Git rebase
+## Git Merge 和 Git rebase
 
 
 ### Merge 的流程

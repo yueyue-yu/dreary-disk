@@ -1,14 +1,14 @@
 ---
-title: Git 对象
+title: Git 核心对象
 description: ""
-publishDate: 2025-09-13
+publishDate:  2025-09-13
 tags:
   - Git
 draft: false
 ---
 
 
-# Git 对象
+## Git 对象
 ![](./assets/Git%20核心对象/Git%20分支-1757773221373.webp)
 
 
