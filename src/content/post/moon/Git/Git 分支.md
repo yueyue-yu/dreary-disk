@@ -1,37 +1,102 @@
 ---
 title: Git 分支
 description: ""
-publishDate: 2025-09-14
+publishDate:  2025-09-14
 tags:
   - Git
 draft: false
 ---
 
-# Git 分支的本质
-
-Git 的分支，本质是 指向 **Commit** 对象的可变指针
-HEAD 指针：指向当前分支的指针
-分支切换的时候，HEAD 指针指向新的分支
-commit 代码的时候，分支指针移动到新的 commit
-新的 commit 对象指向上一次 commit 对象
 
 
-# Git 分支操作的常用命令
 
 
-`git branch` : 列出所有 **本地** 分支
-`git branch -a` : 列出所有 **本地** 和 **远程** 分支
-`git switch <branch-name>` : **切换**到已存在的分支
-`git switch -c <branch-name>` : **创建**并**切换**到新分支
-`git checkout -b <branch-name>` : **创建**并**切换**到新分支 (传统)
-`git merge <branch-name>` : 将 `<branch-name>` 合并到**当前**分支
-`git rebase <base-branch>` : 将**当前**分支的提交“嫁接”到 `<base-branch>`
-`git push -u origin <branch-name>` : **推送**新分支到远程并**建立跟踪**
-`git branch -d <branch-name>` : 删除一个**已合并**的本地分支
-`git branch -D <branch-name>` : **强制删除**一个本地分支
-`git push origin --delete <branch-name>` : 删除一个**远程**分支
+## **Git 分支的本质**
+
+- **分支**：本质是指向某个 **Commit 对象** 的**可变指针**
+    
+- **HEAD 指针**：指向当前分支的引用
+    
+
+  
+
+### **分支操作的机制**
+
+- **切换分支**：HEAD 指针指向新的分支
+    
+- **提交代码**：分支指针向前移动，指向最新的 commit
+    
+- **新的 commit**：会记录对上一次 commit 的引用（链式结构）
+
+---
+
+## **Git 分支操作常用命令**
 
 
+
+### **查看分支**
+
+- git branch
+
+    列出所有 **本地** 分支
+    
+- git branch -a
+
+    列出所有 **本地** + **远程** 分支
+
+---
+
+### **切换 / 创建分支**
+
+- git switch <branch-name>
+
+    切换到已存在的分支
+    
+- git switch -c <branch-name>
+
+    创建并切换到新分支
+    
+- git checkout -b <branch-name>
+
+    创建并切换到新分支（旧写法）
+
+---
+
+### **合并 / 变基**
+
+- git merge <branch-name>
+
+    将 <branch-name> 合并到**当前分支**
+    
+- git rebase <base-branch>
+
+    将**当前分支**的提交“嫁接”到 <base-branch>
+
+---
+
+### **推送分支**
+
+- git push -u origin <branch-name>
+
+    推送新分支到远程并建立跟踪
+
+---
+
+### **删除分支**
+
+- git branch -d <branch-name>
+
+    删除一个**已合并**的本地分支
+    
+- git branch -D <branch-name>
+
+    强制删除一个本地分支
+    
+- git push origin --delete <branch-name>
+
+    删除一个远程分支
+
+---
 
 # Git Merge 和 Git rebase
 
@@ -139,7 +204,3 @@ A---B---C   <-- main
 - **merge** 永远是安全的（不会改写历史），**rebase** 适合在自己本地分支上使用。
 
 ---
-
-
-
-
