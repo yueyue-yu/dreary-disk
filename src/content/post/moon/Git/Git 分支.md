@@ -1,8 +1,9 @@
 ---
 title: Git 分支
 description: ""
-publishDate:  2025-09-14
-tags: []
+publishDate: 2025-09-14
+tags:
+  - Git
 draft: false
 ---
 
@@ -11,8 +12,8 @@ draft: false
 Git 的分支，本质是 指向 **Commit** 对象的可变指针
 HEAD 指针：指向当前分支的指针
 分支切换的时候，HEAD 指针指向新的分支
-commit代码的时候，分支指针移动到新的commit
-新的commit对象指向上一次commit对象
+commit 代码的时候，分支指针移动到新的 commit
+新的 commit 对象指向上一次 commit 对象
 
 
 # Git 分支操作的常用命令
@@ -32,7 +33,7 @@ commit代码的时候，分支指针移动到新的commit
 
 
 
-# Git Merge 和Git rebase
+# Git Merge 和 Git rebase
 
 
 ### Merge 的流程
@@ -45,9 +46,7 @@ A---B---C   <-- main
 
 ```
 
-
-
-在 main 分支下merge dev 分支
+在 main 分支下 merge dev 分支
 
 1. Git 找到 main 和 dev 的共同祖先：B。
     
@@ -59,8 +58,6 @@ A---B---C   <-- main
     
 5. main 移动到 M1。
 
-
-
 ```
 A---B---C---------M1   <-- main
      \           /
@@ -68,7 +65,6 @@ A---B---C---------M1   <-- main
 
 
 ```
-
 
 ### **Rebase 的流程**
 
@@ -84,7 +80,6 @@ A---B---C   <-- main
 git checkout dev
 git rebase main
 ```
-
 
 1. **找到 dev 分支和 main 分支的共同祖先**
     
@@ -115,18 +110,18 @@ git rebase main
     - 原来的 D, E 会被“丢弃”（实际上还在 reflog 里）。
         
     - 结果是 dev 变成了 C---D'---E'，看起来像是一直在 main 后面开发。
-        
-    
 
 ---
 
-### **Rebase 之后的提交图**
+**Rebase 之后的提交图**
 
 ```
 A---B---C   <-- main
          \
           D'---E'   <-- dev
 ```
+
+原来的 D 和 E 变成了悬空提交
 
 ---
 
@@ -138,10 +133,13 @@ A---B---C   <-- main
     
 
 - **不要对已经 push 到远程、别人可能基于它开发的分支 rebase！**
-    
+
     因为 rebase 会改写历史，别人那边会出现冲突、混乱。
     
 - **merge** 永远是安全的（不会改写历史），**rebase** 适合在自己本地分支上使用。
+
+---
+
 
 
 
