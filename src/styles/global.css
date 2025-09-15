@@ -86,7 +86,7 @@
 	}
 
 	.title {
-		@apply text-accent-2 text-2xl font-semibold;
+		@apply text-accent-2 text-3xl font-semibold;
 	}
 
 	/* Claude response serif region (articles, poems, etc.) */
