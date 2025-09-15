@@ -3,7 +3,7 @@ title: DOM 事件流
 description: 讲解捕获-目标-冒泡三阶段的传播路径与监听方式，结合示例观察执行顺序，并引出事件委托在冒泡阶段的应用。
 publishDate: 2025-07-10
 tags:
-  - DOM
+  - JavaScript
 draft: false
 ---
 ### 1. 捕获阶段 (Capturing Phase)

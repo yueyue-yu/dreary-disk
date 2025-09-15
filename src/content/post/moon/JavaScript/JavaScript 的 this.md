@@ -1,5 +1,5 @@
 ---
-title: js 中的 this
+title: JavaScript 中的 this
 description: ""
 publishDate: 2025-09-15
 tags:
