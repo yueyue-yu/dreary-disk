@@ -5,12 +5,12 @@
 
 /* Font stacks (open-source alternatives to Claude official stack) */
 :root {
-  --font-fallback-sans: system-ui, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-fallback-sans: "Kumbh Sans", system-ui, "Segoe UI", Roboto, Helvetica, Arial, "Noto Serif SC", "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   --font-fallback-serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", Georgia, "Times New Roman", Times, serif;
   --font-fallback-monospace: ui-monospace, Menlo, Monaco, Consolas, "Noto Sans Mono CJK SC", monospace;
 
   /* Open-source mapping */
-  --font-styrene-b: "Noto Sans", "Noto Sans SC";              /* UI sans replacement */
+  --font-styrene-b: "Kumbh Sans", "Noto Serif SC";              /* UI sans replacement */
   --font-tiempos: "Source Serif 4";       /* Claude response serif replacement */
   --font-jetbrains: "JetBrains Mono";     /* code mono */
 
@@ -26,7 +26,7 @@
 /* you could refactor below to use light-dark(), depending on your target audience */
 @theme {
   /* Claude official palette mapping (light mode) */
-  --color-global-bg: hsl(0 0% 100%);        /* bg-000 */
+  --color-global-bg: hsl(48 33.3% 97.1%);    /* bg-100 - warm off-white background */
   --color-global-text: hsl(60 2.6% 7.6%);    /* text-000 */
   --color-link: hsl(210 70.9% 51.6%);        /* accent-secondary-100 */
   --color-accent: hsl(210 70.9% 51.6%);      /* accent-secondary-100 */
