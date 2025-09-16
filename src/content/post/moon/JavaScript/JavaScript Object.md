@@ -1,13 +1,66 @@
 ---
 title: JavaScript Object
 description: ""
-publishDate: 2025-09-15
+publishDate:  2025-09-15
 tags:
   - JavaScript
 draft: false
 ---
 
+## Primitive → Object
 
+### 核心机制：自动装箱 (Auto-boxing)
+
+当对一个原始值（`string`, `number`, `boolean`, `symbol`, `bigint`）尝试访问其属性或调用其方法时，JavaScript 会在后台进行如下操作：
+
+1.  创建一个临时的包装器对象（Wrapper Object）。
+    *   `string` -> `new String()`
+    *   `number` -> `new Number()`
+    *   `boolean` -> `new Boolean()`
+    * 等等...
+2.  在该临时对象上执行属性/方法的访问或调用。
+3.  销毁这个临时对象。
+
+这个过程是隐式的，使得原始值可以像对象一样使用。
+
+```javascript
+// 示例
+let name = "chat-gpt"; // 原始值 string
+let upperName = name.toUpperCase(); // .toUpperCase() 触发了自动装箱
+
+// 后台大致流程：
+// 1. let temp = new String(name);
+// 2. let upperName = temp.toUpperCase();
+// 3. temp = null; // 销毁临时对象
+```
+
+### 不可转换的原始值
+
+-   `null` 和 `undefined` 没有对应的包装器对象。
+- 对它们进行属性访问会直接抛出 `TypeError`。
+
+```javascript
+null.prop;      // TypeError: Cannot read properties of null
+undefined.prop; // TypeError: Cannot read properties of undefined
+```
+
+### 显式创建包装器对象
+
+你也可以手动使用构造函数创建包装器对象。但这通常是不推荐的做法，因为它会创建一个**对象**而不是原始值，可能导致混淆。
+
+```javascript
+let numPrimitive = 123;
+let numObject = new Number(123);
+
+typeof numPrimitive; // "number"
+typeof numObject;    // "object"
+
+numPrimitive === numObject; // false
+
+if (new Boolean(false)) {
+  console.log("This runs"); // 会运行，因为对象总是 "truthy"
+}
+```
 
 ## Object → Primitive
 
