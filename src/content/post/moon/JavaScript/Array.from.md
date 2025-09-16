@@ -1,8 +1,9 @@
 ---
 title: Array.from
 description: ""
-publishDate:  2025-09-16
-tags: []
+publishDate: 2025-09-16
+tags:
+  - JavaScript
 draft: false
 ---
 

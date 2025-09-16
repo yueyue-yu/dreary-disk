@@ -3,7 +3,6 @@ title: DOM 类型继承链
 description: 可视化梳理 DOM 的继承结构：从 EventTarget 到 Node、Element、HTMLElement 及具体元素，并补充 Text/Comment/Document 分支与 instanceof 验证方法。
 publishDate: 2025-07-29
 tags:
-  - DOM
   - JavaScript
 draft: false
 ---
