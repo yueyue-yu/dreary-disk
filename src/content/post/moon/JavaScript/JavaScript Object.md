@@ -62,6 +62,21 @@ if (new Boolean(false)) {
 }
 ```
 
+##  Object.keys, values, entries
+
+|**方法**|**返回结果**|**示例（以** user = { name: "John", age: 30 } **为例）**|**常用场景**|
+|---|---|---|---|
+|**Object.keys(obj)**|**属性名数组**|["name", "age"]|遍历对象的 **key**，如统计字段数量、判断是否包含某个属性|
+|**Object.values(obj)**|**属性值数组**|["John", 30]|遍历对象的 **value**，如求和、过滤、查找某个值|
+|**Object.entries(obj)**|**键值对数组**|[["name","John"], ["age",30]]|同时获取 **key 和 value**，常用于解构赋值遍历、构建 Map|
+
+
+
+
+
+
+
+
 ## Object → Primitive
 
 
