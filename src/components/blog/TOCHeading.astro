@@ -8,20 +8,151 @@ interface Props {
 const {
 	heading: { children, depth, slug, text },
 } = Astro.props;
+
+const hasChildren = children.length > 0;
+const uniqueId = `toc-${depth}-${slug}`;
 ---
 
-<li class={`${depth > 2 ? "ms-2" : ""}`}>
-	<a
-		class={`line-clamp-2 hover:text-accent ${depth <= 2 ? "mt-3" : "mt-2 text-xs"}`}
-		href={`#${slug}`}><span aria-hidden="true" class="me-0.5">#</span>{text}</a
-	>
-	{
-		!!children.length && (
-			<ol>
-				{children.map((subheading) => (
-					<Astro.self heading={subheading} />
-				))}
-			</ol>
-		)
-	}
+<li class={`toc-item ${
+	depth === 2 ? "" :
+	depth === 3 ? "ms-4" :
+	depth === 4 ? "ms-8" :
+	"ms-12"
+}`}>
+	{hasChildren ? (
+		<div class="toc-collapsible-wrapper">
+			<div class="toc-header" data-target={uniqueId}>
+				<span class="toc-chevron">›</span>
+				<a
+					class={`toc-link ${
+						depth === 2 ? "toc-h2" : "toc-sub"
+					}`}
+					href={`#${slug}`}
+				>
+					{text}
+				</a>
+			</div>
+			<div class="toc-children" id={uniqueId}>
+				<ol class="toc-children-list">
+					{children.map((subheading) => (
+						<Astro.self heading={subheading} />
+					))}
+				</ol>
+			</div>
+		</div>
+	) : (
+		<a
+			class={`toc-link ${
+				depth === 2 ? "toc-h2" : "toc-sub"
+			}`}
+			href={`#${slug}`}
+		>
+			{text}
+		</a>
+	)}
 </li>
+
+<style>
+	.toc-item {
+		list-style: none;
+	}
+
+	.toc-collapsible-wrapper {
+		/* Container for collapsible items */
+	}
+
+	.toc-header {
+		display: flex;
+		align-items: baseline;
+		cursor: pointer;
+		user-select: none;
+		line-height: 1;
+	}
+
+	.toc-chevron {
+		font-size: 1.2em;
+		font-weight: 600;
+		margin-right: 0.4rem;
+		transition: transform 0.2s ease;
+		transform: rotate(0deg);
+		display: inline-block;
+		text-align: center;
+		line-height: 1;
+		flex-shrink: 0;
+	}
+
+	.toc-children {
+		overflow: hidden;
+		transition: max-height 0.2s ease;
+		max-height: 1000px;
+	}
+
+	.toc-children.collapsed {
+		max-height: 0;
+	}
+
+	.toc-children-list {
+		margin-top: 0.125rem;
+		padding-left: 0;
+	}
+
+	.toc-link {
+		line-clamp: 2;
+		transition: color 0.2s ease;
+		text-decoration: none;
+	}
+
+	.toc-link:hover {
+		color: var(--color-accent);
+	}
+
+	.toc-h2 {
+		margin-top: 0.75rem;
+		font-size: 1.125rem;
+		font-weight: 500;
+	}
+
+	.toc-sub {
+		margin-top: 0.25rem;
+		font-size: 1rem;
+	}
+
+	/* Rotated state */
+	.toc-header.expanded .toc-chevron {
+		transform: rotate(90deg);
+	}
+</style>
+
+<script>
+	// Handle collapsible functionality
+	document.addEventListener('DOMContentLoaded', function() {
+		const headers = document.querySelectorAll('.toc-header[data-target]');
+
+		headers.forEach(header => {
+			const targetId = header.getAttribute('data-target');
+			const target = document.getElementById(targetId);
+			const chevron = header.querySelector('.toc-chevron');
+
+			if (target && chevron) {
+				// Initially expanded
+				header.classList.add('expanded');
+
+				header.addEventListener('click', function(e) {
+					// Prevent navigation when clicking chevron area
+					if (e.target === chevron || e.target === header) {
+						e.preventDefault();
+
+						// Toggle expanded state
+						if (header.classList.contains('expanded')) {
+							header.classList.remove('expanded');
+							target.classList.add('collapsed');
+						} else {
+							header.classList.add('expanded');
+							target.classList.remove('collapsed');
+						}
+					}
+				});
+			}
+		});
+	});
+</script>

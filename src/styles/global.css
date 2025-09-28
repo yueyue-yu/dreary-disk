@@ -80,6 +80,7 @@
 @layer components {
 	@import "./components/admonition.css";
 	@import "./components/github-card.css";
+	@import "./components/prose-orchid.css";
 
 	.cactus-link {
 		@apply hover:decoration-link underline underline-offset-2 hover:decoration-2;
@@ -109,7 +110,7 @@
 	--tw-prose-bullets: var(--color-global-text);
 	--tw-prose-code: var(--color-global-text);
 	--tw-prose-headings: var(--color-accent-2);
-	--tw-prose-hr: 0.5px dashed #666;
+	--tw-prose-hr: none;
 	--tw-prose-links: var(--color-global-text);
 	--tw-prose-quotes: var(--color-quote);
 	--tw-prose-th-borders: #666;

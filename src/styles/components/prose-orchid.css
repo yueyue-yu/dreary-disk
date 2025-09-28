@@ -1,0 +1,383 @@
+/* Prose Orchid — safe, theme-aware markdown look
+   Scope: only inside `.prose.prose-orchid` to avoid global impact.
+   Dark/Light: relies on existing CSS vars (global) + subtle local tokens.
+*/
+
+.prose.prose-orchid {
+  /* Local accent tokens (used as decorative tints) */
+  --orchid-pink: #f4acb7;
+  --orchid-blue: #4a90e2;
+  --orchid-green: #9ddbbc;
+  --orchid-peach: #ffd8be;
+  --orchid-purple: #d0b4de;
+  --orchid-hr: linear-gradient(
+    to right,
+    transparent 0%,
+    #ff6b6b 15%,
+    #4ecdc4 25%,
+    #45b7d1 35%,
+    #96ceb4 45%,
+    #ffeaa7 55%,
+    #fab1a0 65%,
+    #fd79a8 75%,
+    #a29bfe 85%,
+    transparent 100%
+  );
+
+  /* Heading palette (Light default) */
+  /* Light mode: deepen/saturate to improve prominence */
+  --orchid-h1: #0b7ec8; /* deeper sky blue */
+  --orchid-h2: #1565c0; /* deeper blue */
+  --orchid-h3: #1b5e20; /* deeper green */
+  --orchid-h4: #1565c0; /* align with h2 */
+  --orchid-h5: #6a1b9a; /* deeper purple */
+  --orchid-h6: #e65100; /* deeper orange */
+
+  /* Strong heading tones (Light): keep vivid, no dulling */
+  --orchid-h1-strong: var(--orchid-h1);
+  --orchid-h2-strong: var(--orchid-h2);
+  --orchid-h3-strong: var(--orchid-h3);
+  --orchid-h4-strong: var(--orchid-h4);
+  --orchid-h5-strong: var(--orchid-h5);
+  --orchid-h6-strong: var(--orchid-h6);
+  overflow-x: clip;
+}
+
+/* Safer text wrapping for long content */
+.prose.prose-orchid p,
+.prose.prose-orchid li,
+.prose.prose-orchid blockquote { overflow-wrap: anywhere; }
+
+/* Links: animated underline via background-size */
+.prose.prose-orchid a:not(.button) {
+  text-decoration: none;
+  font-weight: 700;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: background-size .2s ease, color .15s ease;
+}
+.prose.prose-orchid a:not(.button):hover { background-size: 100% 2px; color: var(--color-link); }
+.prose.prose-orchid a:nth-of-type(4n+1) { color: var(--orchid-green); }
+.prose.prose-orchid a:nth-of-type(4n+2) { color: var(--orchid-peach); }
+.prose.prose-orchid a:nth-of-type(4n+3) { color: var(--orchid-pink); }
+.prose.prose-orchid a:nth-of-type(4n+4) { color: var(--orchid-blue); }
+
+/* Headings: shared look (Audiowide + letter spacing) */
+.prose.prose-orchid h1,
+.prose.prose-orchid h2,
+.prose.prose-orchid h3,
+.prose.prose-orchid h4,
+.prose.prose-orchid h5,
+.prose.prose-orchid h6 {
+  position: relative;
+  font-family: "Audiowide", var(--font-ui), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: .08em;
+  padding-bottom: .3em;
+}
+
+.prose.prose-orchid h1 { color: var(--orchid-h1-strong); border-bottom: 2px solid var(--orchid-h1-strong); }
+.prose.prose-orchid h1::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  width: 28%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orchid-h1-strong));
+}
+
+.prose.prose-orchid h2 { color: var(--orchid-h2-strong); border-left: 4px solid var(--orchid-h2-strong); padding-left: 1rem; }
+
+/* Tiered hues */
+.prose.prose-orchid h3 { color: var(--orchid-h3-strong); }
+.prose.prose-orchid h4 { color: var(--orchid-h4-strong); }
+.prose.prose-orchid h5 { color: var(--orchid-h5-strong); }
+.prose.prose-orchid h6 { color: var(--orchid-h6-strong); }
+
+/* Light-mode explicit override to guarantee vivid tones (default and explicit) */
+.prose.prose-orchid,
+html[data-theme="light"] .prose.prose-orchid {
+  /* Light mode decorative colors - deeper/saturated */
+  --orchid-pink: #d1477a;
+  --orchid-blue: #1565c0;
+  --orchid-green: #E53935;
+  --orchid-peach: #e65100;
+  --orchid-purple: #6a1b9a;
+
+  /* Light mode heading colors */
+  --orchid-h1: #0b7ec8;
+  --orchid-h2: #FFB74D;    /* 橙桃色 */
+  --orchid-h3: #66BB6A;    /* 鲜绿色 */
+  --orchid-h4: #42A5F5;    /* 活力蓝 */
+  --orchid-h5: #BA68C8;    /* 葡萄紫 */
+  --orchid-h6: #FFB74D;    /* 橙桃色 */
+  --orchid-h1-strong: var(--orchid-h1);
+  --orchid-h2-strong: var(--orchid-h2);
+  --orchid-h3-strong: var(--orchid-h3);
+  --orchid-h4-strong: var(--orchid-h4);
+  --orchid-h5-strong: var(--orchid-h5);
+  --orchid-h6-strong: var(--orchid-h6);
+}
+
+/* Dark-mode overrides for heading palette */
+html[data-theme="dark"] .prose.prose-orchid {
+  /* Dark mode decorative colors - lighter/pastel */
+  --orchid-pink: #f4acb7;
+  --orchid-blue: #4a90e2;
+  --orchid-green: #9ddbbc;
+  --orchid-peach: #ffd8be;
+  --orchid-purple: #d0b4de;
+
+  /* Dark mode heading colors */
+  --orchid-h1: #66ddfd;
+  --orchid-h2: #4a90e2;
+  --orchid-h3: #9ddbbc;
+  --orchid-h4: #4a90e2;
+  --orchid-h5: #d0b4de;
+  --orchid-h6: #ffd8be;
+  /* In dark mode, lighten a bit (neon/pastel) for readability */
+  --orchid-h1-strong: color-mix(in srgb, var(--orchid-h1) 90%, var(--color-global-text) 10%);
+  --orchid-h2-strong: color-mix(in srgb, var(--orchid-h2) 90%, var(--color-global-text) 10%);
+  --orchid-h3-strong: color-mix(in srgb, var(--orchid-h3) 90%, var(--color-global-text) 10%);
+  --orchid-h4-strong: color-mix(in srgb, var(--orchid-h4) 90%, var(--color-global-text) 10%);
+  --orchid-h5-strong: color-mix(in srgb, var(--orchid-h5) 90%, var(--color-global-text) 10%);
+  --orchid-h6-strong: color-mix(in srgb, var(--orchid-h6) 90%, var(--color-global-text) 10%);
+}
+
+/* Inline code (not in pre) */
+.prose.prose-orchid :not(pre) > code {
+  background-color: color-mix(in srgb, var(--orchid-purple) 20%, transparent);
+  color: var(--orchid-purple);
+  padding: .2em .4em;
+  border-radius: 4px;
+  font-size: .875em;
+  font-weight: 500;
+}
+.prose.prose-orchid :not(pre) > code:hover {
+  background-color: color-mix(in srgb, var(--orchid-purple) 28%, transparent);
+}
+
+/* Blockquote: inner stripe + soft tint */
+.prose.prose-orchid blockquote {
+  margin: 1.5em 0;
+  padding: 1.2em 1.5em 1.2em 3.5em;
+  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--orchid-blue) 8%, transparent);
+  box-shadow: -4px 0 0 0 var(--orchid-blue) inset;
+}
+.prose.prose-orchid blockquote{ transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.prose.prose-orchid blockquote:hover {
+  transform: translateY(-4px);
+  box-shadow: -4px 0 0 0 var(--orchid-pink) inset, 0 8px 16px rgba(0,0,0,.10);
+  background-color: color-mix(in srgb, var(--orchid-blue) 12%, transparent);
+}
+.prose.prose-orchid blockquote::before {
+  content: "“";
+  position: absolute;
+  left: .3em;
+  top: .1em;
+  line-height: 1;
+  opacity: .5;
+  color: var(--orchid-blue);
+  font-size: 3em;
+}
+.prose.prose-orchid blockquote:hover::before { color: var(--orchid-pink); transform: scale(1.1); }
+
+/* HR: cute text dividers */
+.prose.prose-orchid hr {
+  border: none;
+  height: auto;
+  background: none;
+  margin: 3em auto;
+  text-align: center;
+  position: relative;
+  overflow: visible;
+}
+
+.prose.prose-orchid hr::before {
+  content: "♡ ✧*｡♡ ✧*｡♡ ✧*｡♡ ✧*｡♡ ✧*｡♡ ✧*｡♡ ✧*｡";
+  display: block;
+  font-size: 1.2em;
+  color: #F8BBD9;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-shadow: 0 0 10px rgba(248, 187, 217, 0.3);
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.prose.prose-orchid hr:nth-of-type(2n)::before {
+  content: "＊.°﻿·˚＊.°﻿·˚＊.°﻿·˚＊.°﻿·˚＊.°﻿·˚＊.°﻿·˚＊.°﻿·˚＊.°﻿·˚";
+  color: #42A5F5;
+  text-shadow: 0 0 10px rgba(66, 165, 245, 0.3);
+}
+
+.prose.prose-orchid hr:nth-of-type(3n)::before {
+  content: "॰ॱꕤ*｡ﾟ॰ॱꕤ*｡ﾟ॰ॱꕤ*｡ﾟ॰ॱꕤ*｡ﾟ॰ॱꕤ*｡ﾟ॰ॱꕤ*｡ﾟ॰ॱꕤ*｡ﾟ";
+  color: #66BB6A;
+  text-shadow: 0 0 10px rgba(102, 187, 106, 0.3);
+}
+
+.prose.prose-orchid hr:nth-of-type(4n)::before {
+  content: "✧*｡＊.°﻿·˚✧*｡＊.°﻿·˚✧*｡＊.°﻿·˚✧*｡＊.°﻿·˚✧*｡＊.°﻿·˚";
+  color: #BA68C8;
+  text-shadow: 0 0 10px rgba(186, 104, 200, 0.3);
+}
+
+.prose.prose-orchid hr:nth-of-type(5n)::before {
+  content: "✿॰ॱ*｡ﾟ✿॰ॱ*｡ﾟ✿॰ॱ*｡ﾟ✿॰ॱ*｡ﾟ✿॰ॱ*｡ﾟ✿॰ॱ*｡ﾟ✿॰ॱ*｡ﾟ";
+  color: #E53935;
+  text-shadow: 0 0 10px rgba(229, 57, 53, 0.3);
+}
+
+.prose.prose-orchid hr {
+  transition: transform .2s ease, filter .2s ease;
+}
+
+.prose.prose-orchid hr:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+.prose.prose-orchid hr:hover::before {
+  animation: sparkle 0.6s ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; text-shadow: 0 0 15px currentColor; }
+}
+
+@keyframes sparkle {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Lists: custom bullets safely within padding */
+.prose.prose-orchid ul:not(.contains-task-list) { list-style: none; padding-left: 2em; }
+.prose.prose-orchid ol { list-style: none; }
+/* Hide Typography plugin markers to prevent double bullets/numbers */
+.prose.prose-orchid ul > li:not(.task-list-item)::marker,
+.prose.prose-orchid ol > li:not(.task-list-item)::marker { content: ""; }
+
+.prose.prose-orchid li:not(.task-list-item) { position: relative; padding-left: 2.8em; }
+.prose.prose-orchid ul:not(.contains-task-list) > li::before {
+  content: "✦";
+  position: absolute; left: -1.2em; top: -0.1em;
+  width: 1.2em; height: 1.2em; display: grid; place-items: center;
+  font-size: 1.05em; color: var(--orchid-green);
+  transition: transform .3s ease, color .3s ease;
+  transform-origin: 50% 50%;
+}
+.prose.prose-orchid ul ul:not(.contains-task-list) > li { padding-left: 2.4em; }
+.prose.prose-orchid ul ul:not(.contains-task-list) > li::before {
+  content: "✧"; color: var(--orchid-blue); left: -1.2em; top: -0.1em; width: 1.2em;
+}
+
+/* Hover effects for bullets (safe, no layout shift) */
+.prose.prose-orchid ul:not(.contains-task-list) > li:hover::before {
+  transform: rotate(360deg) scale(1.2) translateX(3px);
+  color: var(--orchid-pink);
+}
+
+/* List item background highlight */
+.prose.prose-orchid ul:not(.contains-task-list):not(.checklist) > li { border-radius: 6px; transition: background-color .2s ease; }
+.prose.prose-orchid ul:not(.contains-task-list):not(.checklist) > li:hover { background-color: color-mix(in srgb, var(--color-global-text) 6%, transparent); }
+
+/* Tables (wrap + row hover emphasis) */
+.prose.prose-orchid .table-wrap { overflow-x: auto; }
+.prose.prose-orchid table { width: 100%; border-collapse: collapse; }
+.prose.prose-orchid tbody tr { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.prose.prose-orchid tbody tr:hover {
+  background-color: color-mix(in srgb, var(--orchid-green) 12%, transparent);
+  transform: scale(1.01);
+  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+  position: relative; z-index: 1;
+}
+
+/* Task list checkbox hover feedback */
+.prose.prose-orchid .task-list-item-checkbox,
+.prose.prose-orchid .task-list-item input[type="checkbox"] {
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.prose.prose-orchid .task-list-item-checkbox:hover,
+.prose.prose-orchid .task-list-item input[type="checkbox"]:hover {
+  transform: scale(1.1);
+  border-color: var(--orchid-pink);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--orchid-pink) 30%, transparent);
+}
+
+/* Ordered list chips */
+.prose.prose-orchid ol { counter-reset: orchid-counter; }
+.prose.prose-orchid ol > li { counter-increment: orchid-counter; padding-left: 2.8em; position: relative; }
+.prose.prose-orchid ol > li::before {
+  content: counter(orchid-counter);
+  position: absolute; left: -1.6em; top: -0.1em;
+  min-width: 1.8em; height: 1.8em; padding: 0 .2em;
+  border-radius: 9999px; display: grid; place-items: center;
+  background-color: color-mix(in srgb, var(--orchid-pink) 20%, transparent);
+  color: var(--orchid-pink); font-weight: 700; font-size: .85em;
+  transition: transform .2s ease, background-color .2s ease, color .2s ease;
+  transform-origin: 50% 50%;
+}
+
+/* Hover: slight scale and hue shift */
+.prose.prose-orchid ol > li:hover::before {
+  transform: scale(1.06) translateX(2px);
+  background-color: color-mix(in srgb, var(--orchid-blue) 20%, transparent);
+  color: var(--orchid-blue);
+}
+
+/* Images */
+.prose.prose-orchid img { border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,.08); transition: transform .2s ease, box-shadow .2s ease; }
+.prose.prose-orchid img:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 28px rgba(0,0,0,.14); }
+
+/* Safety: code blocks should scroll horizontally, not expand layout */
+.prose.prose-orchid pre { overflow-x: auto; }
+.prose.prose-orchid pre:hover { box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+
+/* Admonitions: reuse existing mapping, add subtle gradient left border */
+.prose.prose-orchid .admonition {
+  border-left-width: 4px; border-left-style: solid; border-image-slice: 1;
+  border-image-source: linear-gradient(
+    to bottom,
+    var(--admonition-color),
+    color-mix(in srgb, var(--admonition-color) 45%, transparent)
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Emphasis for direct children; dim siblings when hovering */
+  .prose.prose-orchid > * { transition: transform .18s ease, opacity .18s ease, filter .18s ease; transform-origin: left center; will-change: transform; }
+  .prose.prose-orchid > *:hover { transform: scale(1.01); }
+  @supports(selector(:has(*))) {
+    .prose.prose-orchid:has(> *:hover) > *:not(:hover) { opacity: .85; filter: blur(.2px); }
+  }
+  .prose.prose-orchid .admonition {
+    animation: orchid-breathe 4s ease-in-out infinite;
+  }
+  @keyframes orchid-breathe {
+    0% { border-image-source: linear-gradient(to bottom, var(--admonition-color), color-mix(in srgb, var(--admonition-color) 40%, transparent)); }
+    50% { border-image-source: linear-gradient(to top, var(--admonition-color), color-mix(in srgb, var(--admonition-color) 40%, transparent)); }
+    100% { border-image-source: linear-gradient(to bottom, var(--admonition-color), color-mix(in srgb, var(--admonition-color) 40%, transparent)); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prose.prose-orchid > *:hover,
+  .prose.prose-orchid ul:not(.contains-task-list) > li:hover::before,
+  .prose.prose-orchid ol > li:hover::before,
+  .prose.prose-orchid blockquote:hover,
+  .prose.prose-orchid img:hover { transform: none; }
+}
+
+/* Respect reduced motion: neutralize transforms on hover */
+@media (prefers-reduced-motion: reduce) {
+  .prose.prose-orchid ul:not(.contains-task-list) > li:hover::before,
+  .prose.prose-orchid ol > li:hover::before,
+  .prose.prose-orchid blockquote:hover,
+  .prose.prose-orchid img:hover { transform: none; }
+}

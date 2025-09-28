@@ -29,7 +29,7 @@ export default {
 							},
 						},
 						hr: {
-							borderTopStyle: "dashed",
+							border: "none",
 						},
 						strong: {
 							fontWeight: "700",
