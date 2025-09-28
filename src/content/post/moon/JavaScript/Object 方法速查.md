@@ -53,6 +53,7 @@ const defaults = { color: 'blue', size: 'm', theme: { contrast: 'normal' } };
 const user = { color: 'red', theme: { contrast: 'high' } };
 
 const finalOptions = Object.assign({}, defaults, user);
+// user 覆盖了 defaults
 console.log(finalOptions);
 // { color: 'red', size: 'm', theme: { contrast: 'high' } }  (浅拷贝)
 
@@ -112,7 +113,7 @@ Object.defineProperties(product, {
 ---
 
 ### 5) `Object.getOwnPropertyDescriptor(obj, prop)`
-- 作用：获取某个“自有属性”的描述符。
+- 作用：获取某个自身（非继承的）**属性** 的描述符。
 
 ```javascript
 const o = {};
@@ -124,7 +125,7 @@ console.log(Object.getOwnPropertyDescriptor(o, 'hidden'));
 ---
 
 ### 6) `Object.getOwnPropertyDescriptors(obj)`
-- 作用：获取所有自有属性的描述符映射。
+- 作用：获取所有自身（非继承的）**属性** 的描述符映射。
 - 用法：保留 getter/setter/可枚举性的“完整克隆”
 
 ```javascript
@@ -172,7 +173,7 @@ console.log(Object.fromEntries(map)); // { a: 1, b: 2 }
 ---
 
 ### 11) `Object.getOwnPropertyNames(obj)`
-- 作用：获取自有字符串键（包含不可枚举，不包含 symbol）。
+- 作用：获取自有非继承 字符串键（包含不可枚举，不包含 symbol）。
 
 ```javascript
 const o = Object.create(null, { a: { value: 1, enumerable: false } });
