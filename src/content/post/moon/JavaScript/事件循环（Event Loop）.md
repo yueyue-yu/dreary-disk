@@ -1,7 +1,7 @@
 ---
-title: 单线程的 JS 如何实现异步
+title: 事件循环（Event Loop）
 description: 以事件循环为核心，解释宿主环境、调用栈、任务队列（宏/微任务）如何配合实现非阻塞异步，并补充 setTimeout、async/await 与 Node.js 事件循环差异。
-publishDate: 2025-07-29
+publishDate:  2025-09-11
 tags:
   - JavaScript
 draft: false
@@ -10,11 +10,11 @@ draft: false
 **JavaScript 语言本身是单线程的**。这意味着在任何给定时刻，JavaScript 引擎（比如 Chrome 的 V8）只能执行一件任务。如果一个任务耗时很长（比如一个复杂的计算或网络请求），那么整个程序就会被阻塞，用户界面会卡住，无法响应任何操作。
 那么，它如何实现“不阻塞”的异步效果呢？
 答案是：
-**JavaScript 引擎本身是单线程的，但它运行的宿主环境（Host Environment）——比如浏览器或 Node.js——并不是单线程的。**
+JavaScript 引擎本身是单线程的，但它运行的宿主环境（Host Environment）——比如浏览器或 Node.js——并不是单线程的。
 异步操作的核心思想就是把耗时的任务交给宿主环境去处理，JavaScript 主线程则继续执行后面的代码。当耗时任务完成后，宿主环境再通知 JavaScript 主线程，并将需要执行的回调函数放回任务队列中等待执行。
 这个协调工作的机制，就是大名鼎鼎的 **事件循环（Event Loop）**。
 ---
-### 理解这个机制的关键组件
+## 理解这个机制的关键组件
 为了实现异步，整个 JavaScript 运行时环境包含了以下几个关键部分：
 1. **调用栈（Call Stack）**
     - 这是一个后进先出（LIFO）的数据结构。
@@ -30,9 +30,12 @@ draft: false
 4. **事件循环（Event Loop）**
     - 这是一个持续运行的进程，它的工作就是不停地“监视”调用栈和任务队列。
     - 它的规则非常简单：**如果调用栈是空的，就从任务队列中取出一个任务（回调函数），并将其推入调用栈中执行。**
+
 ---
-### 一个简单的例子：`setTimeout`
+
+## 一个简单的例子：`setTimeout`
 让我们通过一个具体的例子来走一遍流程：
+
 ```JavaScript
 console.log('Start'); // 1. 开始
 setTimeout(function() { // 2. 设置一个定时器
@@ -40,6 +43,7 @@ setTimeout(function() { // 2. 设置一个定时器
 }, 2000);
 console.log('End'); // 3. 结束
 ```
+
 **执行步骤：**
 1. `console.log('Start')` 被推入**调用栈**，立即执行并打印 "Start"，然后从调用栈中弹出。
 2. `setTimeout(...)` 被推入**调用栈**。
@@ -53,22 +57,24 @@ console.log('End'); // 3. 结束
 10. 调用栈执行这个回调函数，`console.log('Timeout callback!')` 被执行，打印 "Timeout callback!"。
 11. 回调函数执行完毕，从调用栈中弹出。程序结束。
 所以，最终的输出顺序是：
+
 ```Plain
 Start
 End
 Timeout callback!
 ```
+
 **这个流程完美地解释了为什么 JavaScript 是单线程的，但又能处理异步任务而不会被阻塞。**
 ---
-### 总结
+## 总结
 |   |   |   |
 |---|---|---|
 |**组件 (Component)**|**负责执行 (Executed By)**|**主要职责 (Primary Responsibility)**|
 |**JavaScript 代码**|JavaScript 引擎 (V8)|执行调用栈顶部的函数，进行计算、操作数据等。|
-|**Web APIs** (setTimeout等)|宿主环境 (浏览器)|在后台线程中处理耗时任务（计时、网络请求、DOM事件等）。|
+|**Web APIs** (setTimeout 等)|宿主环境 (浏览器)|在后台线程中处理耗时任务（计时、网络请求、DOM 事件等）。|
 |**任务队列** (Task Queue)|宿主环境 (浏览器)|维护一个“待办事项”列表，存放已完成的异步任务的回调函数。|
 |**事件循环** (Event Loop)|宿主环境 (浏览器)|**作为调度员**，在调用栈为空时，从任务队列中取出任务，交给 JS 引擎执行。|
-### 拓展 1：微任务 (Microtask) vs. 宏任务 (Macrotask) 的深度剖析
+## 拓展 1：微任务 (Microtask) vs. 宏任务 (Macrotask) 的深度剖析
 随着 JavaScript 的发展，为了解决回调函数嵌套过深（“回调地狱”）的问题，引入了 `Promise` 和 `async/await`。
 它们的工作原理也是基于事件循环，但引入了一个新的、更高优先级的队列：**微任务队列（Microtask Queue）**。
 - **宏任务 (Macrotask / Task):**
@@ -84,6 +90,7 @@ Timeout callback!
 4. （可选）浏览器进行 UI 渲染（判断是否需要重新绘制）。
 5. 从宏任务队列中取出**下一个**宏任务，返回第 1 步，开始新的循环。
 **一个经典的面试题，来巩固这个概念：**
+
 ```JavaScript
 console.log('script start'); // 1. 宏任务
 setTimeout(function() {
@@ -96,6 +103,7 @@ Promise.resolve().then(function() {
 });
 console.log('script end'); // 2. 宏任务
 ```
+
 **执行分析：**
 1. **宏任务开始**:
     - 执行 `console.log('script start')`，打印 "script start"。
@@ -111,6 +119,7 @@ console.log('script end'); // 2. 宏任务
 5. 事件循环去**宏任务队列**中取下一个任务。
     - 取到了之前 `setTimeout` 的回调。执行它，打印 "setTimeout"。
 **最终输出:**
+
 ```Plain
 script start
 script end
@@ -118,39 +127,17 @@ promise1
 promise2
 setTimeout
 ```
+
 ---
-### 拓展 2：`async/await` 是如何工作的？(语法糖的背后)
-`async/await` 并没有发明新的机制，它本质上是 **Promise 和 Generator 的语法糖**，让异步代码看起来像同步代码。
-- `async` 关键字：它声明一个函数是异步的。这个函数会自动返回一个 Promise。如果函数内部返回一个非 Promise 的值，它会被自动包装在一个 resolved 的 Promise 中。
-- `await` 关键字：它只能在 `async` 函数内部使用。它会“暂停”`async` 函数的执行，等待后面的 Promise 完成（resolve 或 reject）。
-    - **关键点**：它并**不会阻塞整个 JavaScript 主线程**。它只是暂停了当前 `async` 函数的执行，把控制权交还给事件循环，让主线程可以去处理其他任务（包括其他异步操作）。
-    - 当 `await` 等待的 Promise 完成后，`async` 函数的剩余部分会作为一个**微任务**被推入微任务队列，在未来的某个时刻恢复执行。
-看下面的例子：
-```JavaScript
-async function asyncFunc() {
-  console.log('async function start'); // 2
-  await new Promise(resolve => setTimeout(resolve, 1000)); // 暂停，交出控制权
-  console.log('async function end'); // 5 (作为微任务)
-}
-console.log('script start'); // 1
-asyncFunc();
-console.log('script end'); // 3
-```
-**执行分析:**
-1. 打印 "script start"。
-2. 调用 `asyncFunc()`。函数立即执行，打印 "async function start"。
-3. 遇到 `await`。`await` 后面的表达式开始执行 (`new Promise(...)`)，这个 Promise 内部的 `setTimeout` 会被注册为一个**宏任务**。
-4. `asyncFunc` 函数的执行在这里**暂停**，控制权被交还给调用它的地方。
-5. 主线程继续执行，打印 "script end"。
-6. (主线程同步代码执行完毕，微任务队列为空)
-7. (大约 1 秒后) `setTimeout` 的回调执行，调用 `resolve()`，`await` 等待的 Promise 状态变为 resolved。
-8. `asyncFunc` 函数的剩余部分 (`console.log('async function end');`) 被作为一个**微任务**添加到微任务队列。
-9. 事件循环发现微任务队列有任务，执行它，打印 "async function end"。
----
-### 拓展 3：与浏览器渲染的关系
+
+
+
+
+## 拓展 2：与浏览器渲染的关系
 事件循环、宏任务和微任务与页面是否卡顿（Jank）息息相关。
 - **UI 渲染是宏任务**：浏览器的渲染更新（Repaint/Reflow）通常是在处理完微任务队列后，下一个宏任务执行前，由浏览器自行决定是否执行。
 - **为什么微任务会阻塞渲染？** 因为微任务队列会在当前宏任务结束后**立即**且**全部**执行。如果你的代码（比如在一个循环中）不断地产生微任务，那么微任务队列将永远不会清空。这就意味着，事件循环永远没有机会进入“UI 渲染”或“执行下一个宏任务”的阶段，导致页面完全卡死，无法响应用户操作。
+
 ```JavaScript
 // 危险！不要在生产环境这样用
 function endlessMicrotasks() {
@@ -162,8 +149,10 @@ function endlessMicrotasks() {
 endlessMicrotasks();
 setTimeout(() => console.log('This will never run!'), 0); // 这个宏任务永远得不到机会
 ```
+
 ---
-### 拓展 4：Node.js 中的事件循环
+
+## 拓展 3：Node.js 中的事件循环
 虽然核心概念相似，但 Node.js 的事件循环（基于 `libuv` 库）比浏览器的更复杂，它有明确的**阶段（Phases）**。
 一个循环周期大致包含以下阶段：
 1. **timers**: 执行 `setTimeout` 和 `setInterval` 的回调。
@@ -173,9 +162,10 @@ setTimeout(() => console.log('This will never run!'), 0); // 这个宏任务永�
 5. **check**: 执行 `setImmediate` 的回调。
 6. **close callbacks**: 执行如 `socket.on('close', ...)` 的回调。
 **关键区别**：`setImmediate` 的回调在 `poll` 阶段完成后立即执行，而 `setTimeout` 的回调在 `timers` 阶段执行。这导致在某些情况下，`setTimeout(fn, 0)` 和 `setImmediate(fn)` 的执行顺序是不确定的，这取决于进入事件循环时所花费的时间。
-### 总结与启示
+## 总结与启示
 理解 JavaScript 异步的本质，就是理解**宿主环境、调用栈、任务队列（宏/微）和事件循环**这几个组件如何协同工作。
 - **性能优化**：避免编写长时间运行的同步代码或无限循环的微任务，因为它们会阻塞事件循环，导致页面卡顿或服务器无响应。
 - **代码预测**：能够准确预测异步代码的执行顺序，是调试和编写复杂逻辑的基础。
 - **架构设计**：在设计应用时，合理地将耗时操作（如文件读写、数据库查询、网络请求）异步化，是构建高性能、高并发应用的关键。
+
 ---
