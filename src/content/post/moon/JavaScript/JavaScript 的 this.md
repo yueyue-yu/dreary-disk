@@ -48,13 +48,20 @@ const person = {
 person.greet(); // 输出: "Hello, I am Alice"
 ```
 
-**⚠️ 陷阱：** 如果将方法赋给一个变量后再调用，就会变回“默认绑定”规则。
+**⚠️ 陷阱：** 如果将方法赋给一个变量后再调用，就会变回“默认绑定”规则。当方法作为参数传递给另一个函数时，`this` 的绑定也会丢失。如果方法被用作回调函数，同样 this 绑定丢失。
 
 ```javascript
 const greetFunc = person.greet;
 greetFunc(); // 严格模式下会报错 'Cannot read properties of undefined (reading 'name')'
              // 非严格模式下会输出 "Hello, I am " (因为 this.name 是 window.name，通常是 undefined)
+                 
 ```
+
+
+
+
+
+
 
 ## 规则三：显式绑定 - 使用 `call`, `apply`, `bind`
 
