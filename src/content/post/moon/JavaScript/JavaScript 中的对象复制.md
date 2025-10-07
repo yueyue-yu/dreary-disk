@@ -268,25 +268,6 @@ console.log(structuredCopy);
 // 丢失: undefined, function (被忽略)
 ```
 
-**🌐 浏览器兼容性：**
-
-- Chrome 98+
-- Firefox 94+
-- Safari 15.4+
-- Edge 98+
-- Node.js 17.0+
-
-```javascript
-// 兼容性检测
-if (typeof structuredClone === 'function') {
-  const copy = structuredClone(original);
-} else {
-  // 降级方案：使用 JSON 或第三方库
-  console.warn('structuredClone 不可用，使用备用方案');
-  const copy = JSON.parse(JSON.stringify(original));
-}
-```
-
 ### 方法三：递归实现深拷贝
 
 ```javascript
@@ -371,194 +352,13 @@ const original = {
 // const deepCopy = _.cloneDeep(original);
 ```
 
-#### Ramda 的 clone
-
-```javascript
-// 需要引入 ramda
-// const R = require('ramda');
-
-// const deepCopy = R.clone(original);
-```
 
 ---
 
-## 使用场景与选择指南
 
-### 何时使用浅拷贝
-
-1. **性能要求高**：浅拷贝速度更快，内存占用少
-2. **只需要第一层独立**：对象结构简单，没有嵌套引用
-3. **共享嵌套数据**：某些情况下希望共享嵌套对象
-
-```javascript
-// 适合浅拷贝的场景
-const userSettings = {
-  theme: 'dark',
-  language: 'en',
-  notifications: true
-};
-
-const newSettings = { ...userSettings, theme: 'light' };
-```
-
-### 何时使用深拷贝
-
-1. **完全独立的副本**：修改副本不应影响原对象
-2. **复杂嵌套结构**：对象包含多层嵌套
-3. **状态管理**：如 Redux 中的不可变更新
-
-```javascript
-// 适合深拷贝的场景
-const gameState = {
-  player: {
-    name: 'Player1',
-    position: { x: 10, y: 20 },
-    inventory: [
-      { item: 'sword', durability: 100 }
-    ]
-  },
-  enemies: [
-    { type: 'goblin', health: 50 }
-  ]
-};
-
-const savedState = deepClone(gameState);
-```
-
-### 性能对比
-
-```javascript
-const largeObject = {
-  // 模拟大型对象
-  data: new Array(10000).fill(0).map((_, i) => ({
-    id: i,
-    value: Math.random(),
-    nested: { deep: i * 2 }
-  }))
-};
-
-console.time('浅拷贝');
-const shallow = { ...largeObject };
-console.timeEnd('浅拷贝'); // 通常 < 1ms
-
-console.time('JSON深拷贝');
-const jsonDeep = JSON.parse(JSON.stringify(largeObject));
-console.timeEnd('JSON深拷贝'); // 可能几十ms
-
-console.time('递归深拷贝');
-const recursiveDeep = deepClone(largeObject);
-console.timeEnd('递归深拷贝'); // 可能更久
-```
-
----
-
-## 常见陷阱与最佳实践
-
-### 陷阱一：误以为浅拷贝足够
-
-```javascript
-const userProfile = {
-  name: 'Alice',
-  preferences: {
-    theme: 'dark',
-    notifications: {
-      email: true,
-      push: false
-    }
-  }
-};
-
-// 错误：以为浅拷贝就够了
-const newProfile = { ...userProfile };
-newProfile.preferences.theme = 'light';
-
-console.log(userProfile.preferences.theme); // 输出: "light" (意外被修改!)
-```
-
-### 陷阱二：JSON 方法的数据丢失
-
-```javascript
-const richObject = {
-  created: new Date(),
-  process: () => console.log('processing'),
-  config: undefined,
-  id: Symbol('unique')
-};
-
-const copied = JSON.parse(JSON.stringify(richObject));
-console.log(copied);
-// 输出: { created: "2025-10-05T..." }
-// 丢失了函数、undefined、Symbol
-
-// ✅ 解决方案：使用 structuredClone（如果不需要函数）
-const betterCopy = structuredClone({ 
-  created: richObject.created 
-});
-console.log(betterCopy.created instanceof Date); // true
-```
-
-### 最佳实践
-
-#### 1. 明确拷贝需求
-
-```javascript
-// 清楚地表明拷贝意图
-function updateUserSettings(settings, updates) {
-  // 浅拷贝足够，因为 settings 是扁平对象
-  return { ...settings, ...updates };
-}
-
-function cloneGameState(state) {
-  // 现代方案：使用 structuredClone
-  if (typeof structuredClone === 'function') {
-    return structuredClone(state);
-  }
-  // 降级方案：递归深拷贝
-  return deepClone(state);
-}
-```
-
-#### 2. 使用 TypeScript 提升类型安全
-
-```typescript
-interface User {
-  name: string;
-  preferences: {
-    theme: string;
-  };
-}
-
-function shallowCloneUser(user: User): User {
-  return { ...user };
-}
-
-function deepCloneUser(user: User): User {
-  return structuredClone(user); // 优先使用 structuredClone
-}
-```
-
-#### 3. 考虑使用不可变数据结构
-
-```javascript
-// 使用 Immutable.js 或 Immer
-// const newState = produce(state, draft => {
-//   draft.user.name = 'New Name';
-// });
-```
-
----
 
 ## 总结
 
-### 选择指南
-
-| 场景 | 推荐方法 | 原因 |
-|------|----------|------|
-| 简单对象，无嵌套 | `{ ...obj }` 或 `Object.assign()` | 性能好，语法简洁 |
-| 现代浏览器，复杂对象深拷贝 | `structuredClone()` ⭐ | 原生支持，处理多种类型，性能好 |
-| 需要支持旧浏览器 | 递归深拷贝或第三方库 | 兼容性好，功能完整 |
-| 纯数据对象，无特殊类型 | `JSON.parse(JSON.stringify())` | 简单快速，但有局限 |
-| 性能敏感场景 | 浅拷贝 + 手动处理关键嵌套 | 平衡性能和功能 |
 
 ### 深拷贝方法对比
 
@@ -574,11 +374,3 @@ function deepCloneUser(user: User): User {
 | 性能 | 快 | 中等 | 较慢 | 中等 |
 | 浏览器支持 | 现代浏览器 | 全部 | 全部 | 需引入 |
 
-### 记忆要点
-
-- **浅拷贝**：复制第一层，嵌套引用共享
-- **深拷贝**：递归复制所有层级，完全独立
-- **structuredClone**：现代推荐，原生 API，功能强大 ⭐
-- **JSON 方法**：简单但有局限性，会丢失特殊类型
-- **性能考虑**：浅拷贝 > structuredClone ≈ JSON > 递归深拷贝
-- **选择原则**：优先 structuredClone，需兼容旧版本时用其他方案
