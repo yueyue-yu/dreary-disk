@@ -1,4 +1,12 @@
-# JavaScript 对象不变性
+---
+title: JavaScript 对象不变性
+description: ""
+publishDate: 2025-10-05
+tags:
+  - JavaScript
+draft: false
+---
+
 
 ## 什么是对象不变性？
 
