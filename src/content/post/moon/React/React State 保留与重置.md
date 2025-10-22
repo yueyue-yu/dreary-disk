@@ -177,4 +177,201 @@ function App() {
 |**同一位置，不同类型**|是不同的组件|卸载旧组件，挂载新组件|**重置 (Reset)**|
 |**组件从树中被移除**|组件已不存在|卸载组件|**重置 (Reset)**|
 |**同一位置，同一类型，但** `**key**` **不同**|是不同的组件 (因为 `key` 是身份标识)|卸载旧 `key` 的组件，挂载新 `key` 的组件|**重置 (Reset)**|
+
+---
+
+### 🔑 Key 的重要作用：不加 Key 会怎么样？
+
+`key` 属性是 React 在渲染列表时的"身份证系统"。虽然它看起来只是一个简单的字符串，但它对 React 的 diff 算法至关重要。让我们通过具体例子来看看不加 `key` 会导致什么问题。
+
+---
+
+#### **问题 1：性能问题 - React 无法高效复用 DOM**
+
+> 没有 key 时，React 只能按位置进行简单匹配，无法识别元素的真实身份。
+
+**场景**：在列表头部插入新元素
+
+```javascript
+function TodoList() {
+  const [todos, setTodos] = React.useState([
+    { id: 1, text: '学习 React' },
+    { id: 2, text: '写文档' },
+    { id: 3, text: '吃饭' }
+  ]);
+
+  const addTodo = () => {
+    const newTodo = { id: Date.now(), text: '新任务' };
+    setTodos([newTodo, ...todos]); // 在头部插入
+  };
+
+  return (
+    <div>
+      <button onClick={addTodo}>添加任务</button>
+      {/* 情况 A：没有 key */}
+      {todos.map(todo => (
+        <div>{todo.text}</div>
+      ))}
+    </div>
+  );
+}
+```
+
+**React 的判断**（没有 key）：
+
+1. 第一个位置：原来是 "学习 React"，现在是 "新任务" → 更新文本内容
+2. 第二个位置：原来是 "写文档"，现在是 "学习 React" → 更新文本内容
+3. 第三个位置：原来是 "吃饭"，现在是 "写文档" → 更新文本内容
+4. 第四个位置：没有，现在是 "吃饭" → 创建新 DOM 节点
+
+**实际效果**：React **更新了 3 个已存在的 DOM 节点 + 创建了 1 个新节点**，总共 4 次 DOM 操作。
+
+**正确做法**（使用 key）：
+
+```javascript
+{todos.map(todo => (
+  <div key={todo.id}>{todo.text}</div>
+))}
+```
+
+**React 的判断**（有 key）：
+
+- `key={1}` 的元素：位置从第一变成第二 → 移动 DOM 节点
+- `key={2}` 的元素：位置从第二变成第三 → 移动 DOM 节点  
+- `key={3}` 的元素：位置从第三变成第四 → 移动 DOM 节点
+- `key={新ID}` 的元素：全新的 → 创建新 DOM 节点
+
+**实际效果**：React **只创建了 1 个新 DOM 节点 + 移动了 3 个已存在的节点**。移动节点比更新节点内容要高效得多！
+
+---
+
+#### **问题 2：状态混乱 - 组件状态被错误复用**
+
+> 当列表项有内部状态时，不加 key 会导致状态"串位"。
+
+**场景**：可编辑的任务列表
+
+```javascript
+function EditableTodo({ text }) {
+  const [isEditing, setIsEditing] = React.useState(false);
+  const [value, setValue] = React.useState(text);
+
+  return (
+    <div>
+      {isEditing ? (
+        <input 
+          value={value} 
+          onChange={e => setValue(e.target.value)}
+          onBlur={() => setIsEditing(false)}
+        />
+      ) : (
+        <span onClick={() => setIsEditing(true)}>{value}</span>
+      )}
+    </div>
+  );
+}
+
+function App() {
+  const [todos, setTodos] = React.useState([
+    { id: 1, text: '买牛奶' },
+    { id: 2, text: '写代码' },
+    { id: 3, text: '运动' }
+  ]);
+
+  const removeTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  return (
+    <div>
+      {/* 没有 key！*/}
+      {todos.map(todo => (
+        <div>
+          <EditableTodo text={todo.text} />
+          <button onClick={() => removeTodo(todo.id)}>删除</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+**问题演示**：
+
+1. 用户点击第二项 "写代码"，进入编辑模式（`isEditing = true`）
+2. 用户删除第一项 "买牛奶"
+3. **预期**：第二项（现在变成第一项）仍然保持编辑状态
+4. **实际**：第二项（"运动"）进入了编辑模式！
+
+**React 的判断**（没有 key）：
+
+- 删除 "买牛奶" 后，列表从 3 项变成 2 项
+- 第一个位置：原来是 `<EditableTodo text="买牛奶" />`，现在是 `<EditableTodo text="写代码" />` → 同一位置，同一类型，**保留实例**，只更新 `text` prop
+- 第二个位置：原来是 `<EditableTodo text="写代码" />`（正在编辑），现在是 `<EditableTodo text="运动" />` → 同一位置，同一类型，**保留实例**（包括 `isEditing=true` 的状态！），只更新 `text` prop
+- 第三个位置：原来有，现在没有了 → 卸载组件
+
+**实际效果**：原本在编辑 "写代码" 的状态被错误地保留给了 "运动"！
+
+**正确做法**（使用 key）：
+
+```javascript
+{todos.map(todo => (
+  <div key={todo.id}>
+    <EditableTodo text={todo.text} />
+    <button onClick={() => removeTodo(todo.id)}>删除</button>
+  </div>
+))}
+```
+
+**React 的判断**（有 key）：
+
+- `key={1}` 的组件被删除 → 卸载该实例
+- `key={2}` 的组件（正在编辑）从第二位置移到第一位置 → **保留实例和状态**
+- `key={3}` 的组件从第三位置移到第二位置 → 保留实例和状态
+
+**实际效果**：每个组件的状态都正确地跟随其对应的数据项！
+
+---
+
+#### **问题 3：使用 index 作为 key 的陷阱**
+
+很多开发者会用数组索引作为 `key`：
+
+```javascript
+{todos.map((todo, index) => (
+  <div key={index}>{todo.text}</div>
+))}
+```
+
+**这和不加** `**key**` **几乎一样糟糕！**
+
+**为什么？** 因为当列表顺序改变时，索引值仍然保持不变（总是 0, 1, 2, ...），React 依然无法识别元素的真实身份。
+
+|操作|使用 `key={index}`|使用 `key={todo.id}`|
+|---|---|---|
+|在列表头部插入|❌ 所有元素的 key 都变了（0→1, 1→2...），导致大量更新|✅ 只有新元素有新 key，其他元素不变|
+|删除中间元素|❌ 删除位置之后的所有元素 key 都变了|✅ 只有被删除的元素消失，其他不变|
+|随机排序|❌ 几乎所有元素的 key 都变了|✅ 所有元素的 key 保持不变，只是位置改变|
+
+**唯一可以用** `**index**` **的情况**：
+
+- 列表**永远不会**重新排序
+- 列表**永远不会**删除/插入元素
+- 列表项**没有内部状态**
+
+但说实话，这种情况太少了，**强烈建议始终使用唯一的 ID 作为 key**。
+
+---
+
+#### **最佳实践总结**
+
+|场景|推荐做法|原因|
+|---|---|---|
+|渲染数据库记录|使用数据库 ID (`key={item.id}`)|每条记录有唯一、稳定的标识|
+|渲染用户输入的项|使用 UUID 或时间戳 (`key={item.uuid}`)|即使内容相同，每项也是独立的|
+|静态列表（永不改变）|可以用 `index`，但用 ID 更安全|虽然可行，但不值得省这点代码|
+|动态列表（会排序/过滤）|**必须**使用稳定的 ID|否则会导致性能和状态问题|
+
+**记住**：`key` 不是给你看的，是给 React 看的。它帮助 React 识别"这个元素还是原来那个元素吗？"这个问题的答案直接决定了 React 是复用组件（保留状态）还是重新创建（重置状态）。
+
 ---
