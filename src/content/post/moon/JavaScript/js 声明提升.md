@@ -122,6 +122,22 @@ const myFunc = function() {
 };
 ```
 
+
+```JavaScript
+let x = 1;
+
+{
+  console.log(x); // ReferenceError
+  let x = 2;
+}
+
+```
+这个例子说明了 提升和TDZ的存在
+块内访问 x 结果为 ReferenceError，
+块内x 提升到了 块级作用域的最前面从而遮蔽外部x
+在初始化之前，访问它就报 TDZ 的错
+
+
 ## 5. `class` 类声明
 
 类声明的提升方式与 `let` 和 `const` 类似。它们也会被提升到作用域顶部，但存在于暂时性死区（TDZ）中。在声明之前尝试访问或实例化一个类，会引发 `ReferenceError`。
