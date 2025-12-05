@@ -290,12 +290,9 @@ html[data-theme="dark"] .prose.prose-orchid {
 /* Tables (wrap + row hover emphasis) */
 .prose.prose-orchid .table-wrap { overflow-x: auto; }
 .prose.prose-orchid table { width: 100%; border-collapse: collapse; }
-.prose.prose-orchid tbody tr { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.prose.prose-orchid tbody tr { transition: background-color .2s ease; }
 .prose.prose-orchid tbody tr:hover {
   background-color: color-mix(in srgb, var(--orchid-green) 12%, transparent);
-  transform: scale(1.01);
-  box-shadow: 0 6px 14px rgba(0,0,0,.10);
-  position: relative; z-index: 1;
 }
 
 /* Task list checkbox hover feedback */

@@ -4,7 +4,7 @@ import type { MarkdownHeading } from "astro";
 import TOCHeading from "./TOCHeading.astro";
 
 interface Props {
-	headings: MarkdownHeading[];
+  headings: MarkdownHeading[];
 }
 
 const { headings } = Astro.props;
@@ -12,10 +12,55 @@ const { headings } = Astro.props;
 const toc = generateToc(headings);
 ---
 
-<div class="lg:sticky lg:top-12 lg:order-2 lg:ml-8 xl:ml-16 lg:basis-56 xl:basis-64">
-	<nav class="lg:w-full">
-		<ol>
-			{toc.map((heading) => <TOCHeading heading={heading} />)}
-		</ol>
-	</nav>
-</div>
+<aside
+  class="toc-aside lg:sticky lg:top-16 lg:ml-8 xl:ml-12 lg:w-48 xl:w-52 shrink-0"
+>
+  <nav class="toc-nav">
+    <h2 class="toc-title">目录</h2>
+    <ul class="toc-list">
+      {toc.map((heading) => <TOCHeading heading={heading} />)}
+    </ul>
+  </nav>
+</aside>
+
+<style>
+  .toc-aside {
+    max-height: calc(100vh - 6rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) transparent;
+  }
+
+  .toc-aside::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .toc-aside::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border-radius: 3px;
+  }
+
+  .toc-nav {
+    padding-left: 1rem;
+    border-left: 1px solid hsl(0 0% 85%);
+  }
+
+  :global([data-theme="dark"]) .toc-nav {
+    border-left-color: hsl(0 0% 25%);
+  }
+
+  .toc-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+</style>
