@@ -1,3 +1,11 @@
+---
+title: JS 手写代码
+description: ""
+publishDate: 2025-11-11
+tags:
+  - JavaScript
+draft: false
+---
 
 ```Javascript
 
