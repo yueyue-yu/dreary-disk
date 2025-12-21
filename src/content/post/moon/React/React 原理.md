@@ -30,9 +30,9 @@ draft: false
 >     
 > 7. 执行 useLayoutEffect
 >     ↓
->     **浏览器 Paint (绘制)**
+> **浏览器 Paint (绘制)**
 >     ↓
->     **Passive**: 执行 useEffect
+> **Passive**: 执行 useEffect
 
 
 ## Diff 之前的 Fiber 树遍历

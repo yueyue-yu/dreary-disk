@@ -1,162 +1,179 @@
 ---
 title: React useState 使用
 description: 梳理 useState 的渲染触发与 Object.is 比较规则、React 18 自动批处理、闭包陷阱与函数式更新、不可变性、Hooks 规则及惰性初始化。
-publishDate: 2025-07-12
+publishDate:  2025-09-11
 tags:
   - React
 draft: false
 ---
-### `useState` 的渲染时机
-`useState` 的核心作用是让函数组件拥有自己的状态（state），并在状态变更时触发组件的重新渲染（re-render），从而更新 UI。
-理解其渲染时机，关键在于理解 `set` 函数（如 `setCount`）的行为。
-### 1. 何时触发渲染？
-**核心原则：调用** `**set**` **函数来更新 state，是触发重新渲染的唯一正确方式。**
-当你调用 `set` 函数时，你并不是在命令组件“立即渲染”，而是在“请求/调度”一次更新。React 会接收到这个请求，然后决定何时执行重新渲染。
-### 2. 触发渲染的具体条件
-调用 `set` 函数并不总是会引起重新渲染。React 会进行一次优化检查：
-- **新旧 state 值对比**：React 使用 `Object.is` 算法来比较你传入的新 state 值和当前的 state 值。
-- **值相同时，跳过渲染**：如果 `Object.is(newState, oldState)` 返回 `true`，React 会认为 state 没有变化，从而跳过这次更新，不会触发重新渲染。这是一个重要的性能优化。
-```JavaScript
+
+---
+
+## 问题一：状态更新的“延迟”与批量处理
+**表现**：连续多次调用 `setState`，或者在调用后立即打印 state，未能获取最新值。
+
+### 1. 现象复现
+
+```javascript
 const [count, setCount] = useState(0);
-// 假设当前 count 的值是 5
-setCount(5); // 传入的值和当前值相同，React 会跳过这次渲染
-// 假设当前 count 的值是 0
-setCount(1); // 传入的值和当前值不同，React 会调度一次重新渲染
+
+const handleBatch = () => {
+  setCount(count + 1);
+  setCount(count + 1);
+  setCount(count + 1);
+  console.log(count); // 输出 0，而非更新后的值
+};
+// 渲染结果：count 仅增加 1，而非 3
 ```
-### 3. 状态更新的批处理（Batching）
-这是一个非常重要的概念。为了性能，React 会将短时间内发生的多次 `set` 调用合并（批处理）成一次重新渲染。
-- **React 17及之前**：批处理主要发生在 React 的事件处理函数中（如 `onClick`, `onChange`）。在 `setTimeout`, `Promise` 或原生 DOM 事件监听中，每次 `set` 调用都会触发一次单独的渲染。
-- **React 18及之后（自动批处理）**：批处理是自动且全面的。无论 `set` 函数是在事件处理函数、`setTimeout`、`Promise` 还是其他异步操作中被调用，React 都会尽可能地将它们合并成一次渲染。
-**示例（在 React 18 环境下）：**
-```JavaScript
-function Counter() {
-  const [count, setCount] = useState(0);
-  const [isToggled, setIsToggled] = useState(false);
-  console.log("Component rendered");
-  const handleClick = () => {
-    // 这三个 state 更新会被批处理
-    setCount(c => c + 1);
-    setIsToggled(t => !t);
-    // 即使你再加一个，也只会有一次渲染
-    console.log("Updating state...");
-  };
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={handleClick}>Click Me</button>
-    </div>
-  );
-}
-// 点击按钮后，控制台会输出：
-// "Updating state..."
-// "Component rendered"  <-- 只会输出一次！
-```
-**总结渲染时机：**
-1. 调用 `set` 函数。
-2. 传入的新值与旧值**不同**。
-3. React 会将这个更新**调度**到更新队列中。
-4. React 会对同一事件循环中的多个更新进行**批处理**。
-5. 在当前执行栈清空后，React 会执行一次重新渲染，使用最新的 state 值来生成新的 UI。
+
+### 2. 原理剖析：Update Queue 与 Batching 策略
+
+#### 调度（Scheduling）而非立即执行
+调用 `setCount` 并不等同于赋值操作 `count = 1`。在 React 源码层面，它触发了一次 `dispatchAction`。
+*   **Action 创建**：React 会创建一个 Update 对象（包含 lane 优先级、payload 等信息）。
+*   **入队**：该 Update 对象被推入当前 Fiber 节点的 **Update Queue（更新队列）**。
+*   **调度**：React 调度器（Scheduler）标记该组件为“脏（Dirty）”，并安排在未来的某个微任务或宏任务中执行 Render 阶段。
+
+#### 自动批处理（Automatic Batching）
+React 18 引入了自动批处理机制。在同一个 **Tick（事件循环周期）** 内触发的所有状态更新，会被合并处理。
+* 在上述代码执行过程中，React 并未立即触发重渲染。
+* 三次 `setCount(count + 1)` 实际上向队列中推入了三个相同的 Update 请求（假设当前 `count` 为 0，则三个请求 payload 均为 1）。
+* 当事件处理函数执行完毕，React 处理队列时，最终计算结果为 1。
+
+#### 闭包（Closure）的限制
+`console.log(count)` 输出 0 的原因在于 JavaScript 的词法作用域。
+*   **快照模型**：当前渲染帧是一个独立的函数执行上下文，`count` 是该上下文中的常量（`const`）。
+* 无论 `setState` 是否同步执行，当前作用域内的 `count` 变量已经被**捕获**，其值不可改变。
+
+### 3. 技术解法
+*   **函数式更新**：`setCount(prev => prev + 1)`。这会在队列中创建一个带有**回调函数**的 Update。React 在处理队列时，会将前一个 Update 的计算结果作为参数传递给下一个 Update，从而实现链式计算。
+
 ---
-### `useState` 的注意事项
-这些是使用 `useState` 时必须遵守的规则和常见的“坑”。
-### 1. State 的更新是异步的（Stale Closure / 闭包陷阱）
-当你调用 `set` 函数后，组件内的 state 变量并不会立即改变。当前函数的执行上下文（闭包）中，state 变量仍然是旧的值。
-**错误示例：**
-```JavaScript
-function Counter() {
-  const [count, setCount] = useState(0);
-  const handleClick = () => {
-    setCount(count + 1); // 请求将 count 更新为 1
-    console.log(count);  // ❌ 这里仍然会打印 0！
-  };
-  // ...
-}
-```
-**为什么？** `handleClick` 函数在被创建时，捕获了当时的 `count` 值（为 0）。`setCount(count + 1)` 只是告诉 React “请在下次渲染时把 count 变成 1”，但并不会改变当前这次函数执行中的 `count` 变量。
-**解决方案：**
-- **使用函数式更新**：如果你的新 state 依赖于旧 state，强烈推荐使用函数式更新。这可以确保你总是基于最新的 state 进行计算，避免闭包陷阱。
-    
-    ```JavaScript
-    // ✅ 正确的方式
-    const handleClick = () => {
-      // 多次调用也能正确累加
-      setCount(prevCount => prevCount + 1);
-      setCount(prevCount => prevCount + 1); // 最终 count 会增加 2
-    };
-    ```
-    
-- **使用** `**useEffect**`：如果你需要在 state 更新后执行某些操作（副作用），请使用 `useEffect`。
-    
-    ```JavaScript
-    useEffect(() => {
-      // 这个函数会在 count 更新并重新渲染后执行
-      console.log('Count has been updated to:', count);
-    }, [count]); // 依赖项数组是关键
-    ```
-    
-### 2. 不要直接修改 State（Immutability / 不可变性）
-对于对象或数组类型的 state，绝对不能直接修改它。你必须创建一个新的对象或数组。
-**错误示例：**
-```JavaScript
-const [user, setUser] = useState({ name: 'Alice', age: 30 });
-const handleUpdateName = () => {
-  // ❌ 错误：直接修改了原始 state 对象
-  user.name = 'Bob';
-  setUser(user); // 传入的是同一个对象引用，React 认为 state 未改变，不会重新渲染！
+
+## 问题二：对象/数组修改无效（渲染跳过）
+**表现**：直接修改 state 中的对象属性，组件未触发 Re-render。
+
+### 1. 现象复现
+
+```javascript
+const [state, setState] = useState({ value: 1 });
+
+const mutate = () => {
+  state.value = 2; // 直接修改内存
+  setState(state); // 传入相同的引用
 };
 ```
-**正确示例：**
-```JavaScript
-const [user, setUser] = useState({ name: 'Alice', age: 30 });
-const handleUpdateName = () => {
-  // ✅ 正确：使用展开语法(...)创建一个新对象
-  const newUser = { ...user, name: 'Bob' };
-  setUser(newUser);
-};
-```
-**对于数组也是同理：**
-- **添加**：`setList([...list, newItem])`
-- **删除**：`setList(list.filter(item => item.id !== idToRemove))`
-- **修改**：`setList(list.map(item => item.id === idToUpdate ? { ...item, value: 'new' } : item))`
-### 3. 遵守 Hooks 的规则
-`useState` 是一个 Hook，必须遵守所有 Hooks 的规则：
-- **只能在函数组件的顶层调用**：不要在循环、条件判断（`if`）或嵌套函数中调用 `useState`。React 依赖于 Hooks 的调用顺序来关联 state 和组件实例。
-- **只能在 React 函数组件或自定义 Hook 中调用**。
-**错误示例：**
-```JavaScript
-function MyComponent({ shouldShow }) {
-  if (shouldShow) {
-    // ❌ 错误：在条件语句中调用 Hook
-    const [name, setName] = useState('Alice');
+
+### 2. 原理剖析：Referential Equality 与 Bailout 路径
+
+#### 协调阶段（Reconciliation）的优化
+React 的渲染过程分为 Render 阶段和 Commit 阶段。在 Render 阶段，React 会决定哪些组件需要更新。
+
+*   **Eager State Check**：在调用 `dispatchAction` 时，React 会预先检查新值与当前存储的 `memoizedState` 是否相等。
+*   **Object.is 算法**：React 使用 `Object.is(oldState, newState)` 进行浅比较。
+*   **Bailout 策略**：如果 `Object.is` 返回 `true`，React 认为数据未发生变化，直接复用当前的 Fiber 节点，**跳过（Bailout）** 后续的 Diff 和 Render 过程。
+
+#### 引用数据类型的问题
+在上述代码中，`state.value = 2` 修改了堆内存中的数据，但 `state` 变量在栈内存中的**引用地址**未变。
+*   `Object.is(state, state)` 结果为 `true`。
+*   React 命中 Bailout 策略，视图不更新。
+
+### 3. 技术解法
+*   **不可变数据（Immutability）**：强制创建新的内存引用。
+
+    ```javascript
+    setState({ ...state, value: 2 }); // 创建新对象，引用地址变更
+    ```
+
+---
+
+## 问题三：Hooks 调用顺序错误（Invariant Violation）
+**表现**：在条件语句（`if`）或循环中使用 `useState`，导致 React 抛出异常或状态混乱。
+
+### 1. 现象复现
+
+```javascript
+let isMounted = true;
+function Component() {
+  if (isMounted) {
+     const [a] = useState(1);
   }
-  // ...
+  const [b] = useState(2); 
 }
 ```
-### 4. 惰性初始 State（Lazy Initial State）
-如果你的初始 state 需要通过一个昂贵的计算（例如，从 `localStorage` 读取并解析数据）来获得，这个计算不应该在每次渲染时都执行。
-**低效的方式：**
-```JavaScript
-// expensiveCalculation() 会在每次组件重新渲染时都被调用
-const [data, setData] = useState(expensiveCalculation());
-```
-**高效的方式（惰性初始化）：**
-向 `useState` 传入一个函数。这个函数只会在组件的**初始渲染**时被调用一次。
-```JavaScript
-// ✅ 正确：expensiveCalculation 只会在第一次渲染时执行
-const [data, setData] = useState(() => {
-  const initialState = expensiveCalculation();
-  return initialState;
-});
-```
-1. `useState` 接收的参数是**一个函数**（在这里是一个箭头函数 `() => { ... }`）。
-2. React 的 `useState` Hook 有一个特殊的行为：如果传入的初始值是一个**函数**，它就不会立即执行这个函数，而是会把这个函数看作是**一个“初始化器”（initializer）函数**。
-3. 这个“初始化器”函数**只会在组件的首次渲染时被调用一次**，其返回值将作为 `state` 的初始值。
-4. 在组件的**后续重新渲染时，这个初始化器函数不会再次执行**。`useState` 会直接返回之前已经存储的 `state` 值。
+
+### 2. 原理剖析：Fiber 链表结构（Linked List）
+
+#### 无 Key 的存储机制
+与 Vue 或 MobX 基于响应式代理不同，React Hooks 的底层存储不依赖变量名，而是严格依赖**调用顺序**。
+
+*   **Fiber.memoizedState**：在 React Fiber 节点上，所有的 Hooks 状态被存储在一个**单向链表**中。
+
+    ```typescript
+    // 伪代码结构
+    FiberNode.memoizedState = {
+      memoizedState: value_A, // 第一个 Hook 的值
+      next: {
+        memoizedState: value_B, // 第二个 Hook 的值
+        next: null
+      }
+    }
+    ```
+
+*   **游标（Cursor）匹配**：每次组件重新渲染时，React 内部维护一个全局游标（workInProgressHook）。
+    * 第一次调用 `useState`，读取链表第 1 个节点。
+    * 第二次调用 `useState`，读取链表第 2 个节点。
+
+#### 链表错位
+如果 `if (isMounted)` 导致第一次调用被跳过：
+* 代码中的 `const [b] = useState(2)` 会错误地读取到链表中的第 1 个节点（本该属于 `a` 的状态）。
+* 这种错位会导致状态类型不匹配，甚至引发 React 内部断言错误（Invariant Violation），导致应用崩溃。
+
 ---
-### 最终总结
-|方面|核心要点|
-|---|---|
-|**渲染时机**|1. 调用 `set` 函数 **调度** 更新。2. 仅当新旧值**不同**时才触发。3. React 会**批处理**多次更新，通常只引发一次渲染。|
-|**注意事项**|1. **异步更新**：不要期望 `set` 后立即获取新值，使用 `useEffect` 或函数式更新。2. **不可变性**：绝不直接修改对象或数组，永远创建新的。3. **Hooks 规则**：只在顶层调用。4. **惰性初始化**：对于昂贵的初始值计算，使用函数 `useState(() => ...)`。|
+
+## 问题四：昂贵的初始化计算（性能损耗）
+**表现**：将复杂计算直接作为 `useState` 的参数，导致每次渲染都执行该计算逻辑。
+
+### 1. 现象复现
+
+```javascript
+function heavyComputation() {
+  // 假设耗时 100ms
+  return localStorage.getItem('large_data');
+}
+
+const Component = () => {
+  // 每次 Render 都会执行 heavyComputation()
+  const [data] = useState(heavyComputation());
+  return <div>...</div>;
+};
+```
+
+### 2. 原理剖析：JS 执行流与惰性初始化（Lazy Initialization）
+
+#### JavaScript 的求值策略
+在 JavaScript 中，函数参数是**按值传递**的。在调用 `useState(getValue())` 之前，JS 引擎必须先执行 `getValue()` 以获取参数值。
+* 这意味着：**每一次**组件函数重新执行（Re-render），`heavyComputation` 都会被同步执行。
+* 虽然 React 内部只在 Mount 阶段使用该初始值，在 Update 阶段会忽略它，但这部分 JS 计算资源的浪费是已经发生了的。
+
+#### 惰性初始化
+React 允许 `useState` 接收一个函数作为参数。
+
+```javascript
+const [data] = useState(() => heavyComputation());
+```
+
+*   **Mount 阶段**：React 检测到参数是函数，会调用该函数并将返回值作为初始状态。
+*   **Update 阶段**：React 仅仅返回当前的 `state`，**完全不调用**传入的初始化函数。
+
 ---
+
+## 技术总结
+
+| 核心问题            | 底层技术原理                                     | 最佳实践                                                 |
+| :-------------- | :----------------------------------------- | :--------------------------------------------------- |
+| **状态非实时更新**     | **Batching & Scheduling**：更新进入队列，异步调度执行。   | 依赖旧值时使用**函数式更新** `set(prev => ...)`。                 |
+| **获取到旧值**       | **Stale Closure**：函数组件是快照，变量在闭包中不可变。       | 使用 `useEffect` 监听依赖，或利用 `useRef` 穿透闭包。               |
+| **UI 不刷新**      | **Object.is & Bailout**：浅比较引用，相同则跳过渲染。     | 遵循 **Immutability** 原则，永远创建新对象引用。                    |
+| **Hooks 报错/错乱** | **Fiber Linked List**：依赖链表顺序存储状态，无 Key 映射。 | 严格遵守 Hooks 规则，**只在顶层**调用。                            |
+| **初始化卡顿**       | **JS Evaluation**：参数先行计算。                  | 使用 **Lazy Initialization** `useState(() => init())`。 |
