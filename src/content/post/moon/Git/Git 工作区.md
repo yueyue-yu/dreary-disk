@@ -39,14 +39,13 @@ draft: false
 
 
 - `git status` 检查当前文件状态
-- `git add` Untracked /Unmodified  - → **Staged**
-- `git commmit` - **Staged → Unmodified**
+- `git add` Untracked /Unmodified  -→ **Staged**
 - `git commit` : `Staged → Unmodified`
 - `git commit- a` 已跟踪文件 暂存并提交
 - `git commit -amend` 追加到上一次提交
 - `git rm` 从工作区和暂存区同时删除
 - `git rm --cached` 暂存区删除 工作区保留
-- `git mv`  `mv` + `git rm` + `git add` 三合一，一步到位。
+- `git mv`  移动或重命名文件 并自动暂存
 - `git restore <file>` 放弃工作区的修改。
 - `git restore --staged <file>` 放弃暂存区修改，工作区修改不变
 - `git diff` 比较工作区与暂存区

@@ -22,18 +22,19 @@ draft: false
 
 ## Commit 对象
 **每一次 commit 都创建一个 commit 对象**，存放
-1.Author & Committer Commit message
-2.指向上一次 commit 对象的指针
-3.指向根目录的 tree 对象的指针
+
+1. Author & Committer Commit message
+2. 指向上一次 commit 对象的指针
+3. 指向根目录的 tree 对象的指针
 
 
 
 ## Tree 对象
 
 存放**指针**指向根目录下的**文件**以及**子目录**
-每一个目录都有**Tree**对象
-内容发生了变化的目录 创建新的 `tree` 对象。
-目录及其所有子目录内容都没有任何改变，新提交会直接指向旧的 `tree` 对象
+1. 每一个目录都有**Tree**对象
+2. 内容发生了变化的目录 创建新的 `tree` 对象。
+3. 目录及其所有子目录内容都没有任何改变，新提交会直接指向旧的 `tree` 对象
 
 以根目录为例
 
